@@ -1,5 +1,4 @@
-# Chocoloco Requirements Analyse
-# LET OP  h1 afbeelding organogram nog invoegen 
+# Chocoloco Requirements Analyse 
 #### Groepsnaam
 Chocoloco
 
