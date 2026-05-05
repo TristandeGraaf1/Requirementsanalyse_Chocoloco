@@ -180,18 +180,33 @@ Binnen ChocoLoco wordt de Definition of Ready gebruikt om te bepalen wanneer een
 
 Een user story is “ready” wanneer aan de volgende voorwaarden is voldaan:
 
-•	De user story is duidelijk geformuleerd volgens het format: Als [gebruiker] wil ik [functionaliteit] zodat [doel]  
-•	De acceptatiecriteria zijn concreet en testbaar beschreven  
-•	De scope van de user story is duidelijk en niet te groot (bijv. één functionaliteit zoals QR-scannen of dashboardweergave)  
-•	De benodigde systemen en koppelingen zijn bekend (zoals ERP, CRM of BI) 
-•	Eventuele afhankelijkheden (bijv. productdata of klantgegevens) zijn inzichtelijk 
-•	De prioriteit van de user story is vastgesteld  
-•	Het ontwikkelteam begrijpt de user story volledig
-•	De user story is inschatbaar (bijv. S, M of L) 
+- De user story is duidelijk geformuleerd volgens het format: Als [gebruiker] wil ik [functionaliteit] zodat [doel]  
+- De acceptatiecriteria zijn concreet en testbaar beschreven  
+- De scope van de user story is duidelijk en niet te groot (bijv. één functionaliteit zoals QR-scannen of dashboardweergave)  
+- De benodigde systemen en koppelingen zijn bekend (zoals ERP, CRM of BI) 
+- Eventuele afhankelijkheden (bijv. productdata of klantgegevens) zijn inzichtelijk 
+- De prioriteit van de user story is vastgesteld  
+- Het ontwikkelteam begrijpt de user story volledig
+- De user story is inschatbaar (bijv. S, M of L) 
 
 Door deze criteria toe te passen, wordt voorkomen dat er gestart wordt met onduidelijke of incomplete user stories.
 
 
+### Definition of Done (DoD)
+De Definition of Done beschrijft wanneer een user story volledig is afgerond en opgeleverd kan worden. Binnen ChocoLoco wordt hiermee de kwaliteit van het systeem gewaarborgd.
+
+Een user story is “done” wanneer aan de volgende voorwaarden is voldaan:
+
+- Alle acceptatiecriteria zijn behaald 
+- De functionaliteit werkt correct binnen de mobiele applicatie (bijv. QR-scan, dashboard, chatbot, bestelproces) 
+- De functionaliteit is getest en bevat geen kritieke fouten of bugs 
+- Koppelingen met andere systemen (ERP, CRM, BI) functioneren correct 
+- De gebruiker kan de functionaliteit succesvol gebruiken (gebruiksvriendelijkheid is gecontroleerd) 
+- Eventuele data wordt correct weergegeven (bijv. productinformatie, klantgegevens, aanbevelingen) 
+- De code en documentatie zijn bijgewerkt 
+- De user story is gevalideerd en goedgekeurd door de product owner of opdrachtgever
+  
+Door het hanteren van de Definition of Done wordt gegarandeerd dat elke opgeleverde functionaliteit voldoet aan de gestelde eisen en direct waarde levert voor de gebruiker.
 
 
 
