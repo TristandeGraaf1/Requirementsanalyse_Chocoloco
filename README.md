@@ -44,17 +44,20 @@ Chocoloco zal de komende jaren blijven innoveren in de persoonlijk en exclusieve
 1.	Verhogen klanttevredenheid
 
     Binnen 2 jaar moeten de klanttevredenheidcijfers in NPS (Net promotor Score) met 25 punten zijn toegenomen ten opzichte van het jaar 2024.
-    KPI: klanttevredenheid meten in NPS
 
-2.	Verhogen van de marge op producten
+  	 KPI: klanttevredenheid meten in NPS
+
+3.	Verhogen van de marge op producten
 
     Binnen 2 jaar moet de productmarge met 5% verhoogd zijn door de inkoop kosten te optimaliseren en verkoopprijzen te verhogen.
-    KPI: Product marge per product in procenten
 
-3.	Verhogen van community deelname
+  	 KPI: Product marge per product in procenten
+
+4.	Verhogen van community deelname
 
     De Chocolate Firm wil binnen 12 maanden 20% meer actieve leden in de community ten opzichte van de lancering.
-    KPI: Aantal actieve gebruikers in de community
+
+  	 KPI: Aantal actieve gebruikers in de community
 
 
 ### Organogram
