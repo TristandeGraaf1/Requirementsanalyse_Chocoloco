@@ -62,6 +62,7 @@ Chocoloco zal de komende jaren blijven innoveren in de persoonlijk en exclusieve
 
 ### Organogram
 ![Organogram van de organisatie](Afbeelding1.png)
+
 Afbeelding 1: Organogram van de organisatie
 ### Stakeholder analyse 
 
