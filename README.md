@@ -1,5 +1,5 @@
 # Chocoloco Requirements Analyse
-
+# LET OP  h1 afbeelding organogram nog invoegen 
 #### Groepsnaam
 Chocoloco
 
@@ -171,7 +171,31 @@ Er is een duidelijk verschil tussen de huidige en gewenste situatie. Op dit mome
 
 ## 5. User stories (inclusief acceptatiecriteria en inschatting)
 
+
+
 ## 6. DoR en DoD 
+
+### Definition of Ready (DoR)
+Binnen ChocoLoco wordt de Definition of Ready gebruikt om te bepalen wanneer een user story klaar is om ontwikkeld te worden. Dit voorkomt onduidelijkheid en zorgt ervoor dat het ontwikkelteam efficiënt kan werken.
+
+Een user story is “ready” wanneer aan de volgende voorwaarden is voldaan:
+
+•	De user story is duidelijk geformuleerd volgens het format: Als [gebruiker] wil ik [functionaliteit] zodat [doel]  
+•	De acceptatiecriteria zijn concreet en testbaar beschreven  
+•	De scope van de user story is duidelijk en niet te groot (bijv. één functionaliteit zoals QR-scannen of dashboardweergave)  
+•	De benodigde systemen en koppelingen zijn bekend (zoals ERP, CRM of BI) 
+•	Eventuele afhankelijkheden (bijv. productdata of klantgegevens) zijn inzichtelijk 
+•	De prioriteit van de user story is vastgesteld  
+•	Het ontwikkelteam begrijpt de user story volledig
+•	De user story is inschatbaar (bijv. S, M of L) 
+
+Door deze criteria toe te passen, wordt voorkomen dat er gestart wordt met onduidelijke of incomplete user stories.
+
+
+
+
+
+
 
 ## 7. Sitemap
 
