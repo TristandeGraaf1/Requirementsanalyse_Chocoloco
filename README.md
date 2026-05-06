@@ -262,7 +262,7 @@ Klacht indienen:
 
 
 
-![Login](Klacht_indienen.png)
+![Login](Klachtindienen.png)
 
 
 AI-chatbot:
@@ -290,6 +290,7 @@ Live-chat:
 
 
 Loyaliteitsprogramma: Choco rewards
+
 Via het dashboard kom je op deze pagina.
 
 
