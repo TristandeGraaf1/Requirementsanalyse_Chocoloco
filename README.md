@@ -18,12 +18,12 @@ Geassisteerd door AI
 ## Inhoud
 1.	[Organisatorische context](https://github.com/TristandeGraaf1/Requirementsanalyse_Chocoloco#1-organisatorische-context)
 2.	[Actoren](https://github.com/TristandeGraaf1/Requirementsanalyse_Chocoloco#2-actoren)
-3.	[Bedrijfsprocesanalyse](https://github.com/TristandeGraaf1/Requirementsanalyse_Chocoloco#2-actoren)	
-4.	[productvisie](https://github.com/TristandeGraaf1/Requirementsanalyse_Chocoloco#2-actoren)	
-5.	[User stories inclusief acceptatiecriteria en inschatting](https://github.com/TristandeGraaf1/Requirementsanalyse_Chocoloco#2-actoren)	
-6.	[DoR en DoD](https://github.com/TristandeGraaf1/Requirementsanalyse_Chocoloco#2-actoren)		
-7.	[Sitemap](https://github.com/TristandeGraaf1/Requirementsanalyse_Chocoloco#2-actoren)	
-8.	[Wireframes](https://github.com/TristandeGraaf1/Requirementsanalyse_Chocoloco#2-actoren)	
+3.	[Bedrijfsprocesanalyse](https://github.com/TristandeGraaf1/Requirementsanalyse_Chocoloco#3bedrijfsprocesanalyse)	
+4.	[productvisie](https://github.com/TristandeGraaf1/Requirementsanalyse_Chocoloco#4productvisie-met-de-product-vision-board-template)	
+5.	[User stories inclusief acceptatiecriteria en inschatting](https://github.com/TristandeGraaf1/Requirementsanalyse_Chocoloco#5-user-stories-inclusief-acceptatiecriteria-en-inschatting)	
+6.	[DoR en DoD](https://github.com/TristandeGraaf1/Requirementsanalyse_Chocoloco#6-dor-en-dod)		
+7.	[Sitemap](https://github.com/TristandeGraaf1/Requirementsanalyse_Chocoloco#7-sitemap)	
+8.	[Wireframes](https://github.com/TristandeGraaf1/Requirementsanalyse_Chocoloco#8-wireframes)	
 
 
 
