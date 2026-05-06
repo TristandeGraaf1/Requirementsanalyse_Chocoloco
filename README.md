@@ -295,7 +295,7 @@ Live-chat:
 
 Loyaliteitsprogramma: Choco rewards
 
-Om op deze pagina te komen moet de gebruiker via het dashboard op de knop "Chocorewards drukken".
+Om op deze pagina te komen moet de gebruiker via het dashboard op de knop "Chocorewards" drukken.
 
 ![Login](Chocorewards.png)
 
