@@ -217,10 +217,11 @@ Door het hanteren van de Definition of Done wordt gegarandeerd dat elke opgeleve
 ## 7. Sitemap
 ![Sitemap](sitemap1.svg)
 
+Afbeelding 3: Sitemap van de app
 
 
 ## 8. Wireframes
-Login pagina
+Login pagina:
 
 
 ![Login](Login.png)
