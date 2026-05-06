@@ -222,6 +222,86 @@ Login pagina
 
 ![Login](Login.png)
 
+2FA 
+
+
+![Login](2FA.png)
+
+
+Account registeren:
+
+
+![Login](accountmaken.png)
+
+
+Eerste product registeren:
+
+
+![Login](Registeer1product.png)
+
+
+Dashboard:
+
+
+![Login](Registeer1product.png)
+
+
+Klantenservice pagina:
+
+
+![Login](Klantenservice.png)
+
+
+Terugbel functie: 
+
+
+![Login](Terugbellen.png)
+
+
+Klacht indienen:
+
+
+
+![Login](Klacht_indienen.png)
+
+
+AI-chatbot:
+
+
+![Login](AI_bot.png)
+
+
+Status van de klacht:
+
+
+![Login](status.png)
+
+
+FAQ:
+
+
+![Login](FAQ.png)
+
+
+Live-chat:
+
+
+![Login](Livechat.png)
+
+
+Loyaliteitsprogramma: Choco rewards
+Via het dashboard kom je op deze pagina.
+
+
+![Login](Chocorewards.png)
+
+
+
+
+
+
+
+
 
 
 
