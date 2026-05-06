@@ -212,7 +212,7 @@ Door het hanteren van de Definition of Done wordt gegarandeerd dat elke opgeleve
 
 
 ## 7. Sitemap
-![Sitemap](Blank diagram (4).svg)
+![Sitemap](sitemap1.svg)
 
 
 
