@@ -247,7 +247,7 @@ Eerste product registeren:
 Dashboard:
 
 
-![Login](Registeer1product.png)
+![Login](Dashboard.png)
 
 
 Klantenservice pagina:
