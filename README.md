@@ -225,7 +225,7 @@ Login pagina
 
 ![Login](Login.png)
 
-2FA 
+2FA: 
 
 
 ![Login](2FA.png)
@@ -294,8 +294,7 @@ Live-chat:
 
 Loyaliteitsprogramma: Choco rewards
 
-Via het dashboard kom je op deze pagina.
-
+Om op deze pagina te komen moet de gebruiker via het dashboard op de knop "Chocorewards drukken".
 
 ![Login](Chocorewards.png)
 
