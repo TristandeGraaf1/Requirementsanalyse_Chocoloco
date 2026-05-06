@@ -212,6 +212,9 @@ Door het hanteren van de Definition of Done wordt gegarandeerd dat elke opgeleve
 
 
 ## 7. Sitemap
+![Sitemap](Blank diagram (4).svg)
+
+
 
 ## 8. Wireframes
 
