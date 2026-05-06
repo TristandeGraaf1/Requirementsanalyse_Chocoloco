@@ -147,11 +147,11 @@ Beheert promoties, aanbiedingen en content zoals nieuwe producten, recepten en c
 Momenteel verloopt het contact met klanten via verschillende losse kanalen zoals de website, e-mail en telefoon. Productinformatie staat verspreid en klanten moeten zelf zoeken naar antwoorden. Klachten en vragen worden handmatig verwerkt, wat tijd kost en foutgevoelig is. Er is weinig tot geen personalisatie en klantdata wordt beperkt gebruikt.
 
 ### **Knelpunten**
-•	Geen centraal platform voor klanten 
-•	Trage en inefficiënte klantenservice 
-•	Gebrek aan inzicht in klantvoorkeuren 
-•	Weinig klantbetrokkenheid 
-•	Veel handmatige handelingen
+- •	Geen centraal platform voor klanten 
+- •	Trage en inefficiënte klantenservice 
+- •	Gebrek aan inzicht in klantvoorkeuren 
+- •	Weinig klantbetrokkenheid 
+- •	Veel handmatige handelingen
 
 ### **SOLL-situatie (gewenste situatie)**
 In de gewenste situatie gebruiken klanten één centrale app voor alle interacties. Producten kunnen eenvoudig worden geregistreerd en klanten krijgen direct toegang tot informatie, ondersteuning en persoonlijke aanbevelingen. Klantenservice verloopt grotendeels automatisch via self-service en een chatbot. Data wordt actief gebruikt voor personalisatie en verbetering van processen.
