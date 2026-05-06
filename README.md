@@ -16,14 +16,14 @@ Chocoloco
 Geassisteerd door AI
 
 ## Inhoud
-1.	Organisatorische context	
-2.	Actoren	
-3.	Bedrijfsprocesanalyse	
-4.	productvisie	
-5.	User stories inclusief acceptatiecriteria en inschatting
-6.	DoR en DoD	
-7.	Een sitemap voor het te ontwikkelen systeem	
-8.	Wireframes	
+1.	[Organisatorische context](https://github.com/TristandeGraaf1/Requirementsanalyse_Chocoloco#1-organisatorische-context)
+2.	[Actoren](https://github.com/TristandeGraaf1/Requirementsanalyse_Chocoloco#2-actoren)
+3.	[Bedrijfsprocesanalyse](https://github.com/TristandeGraaf1/Requirementsanalyse_Chocoloco#2-actoren)	
+4.	[productvisie](https://github.com/TristandeGraaf1/Requirementsanalyse_Chocoloco#2-actoren)	
+5.	[User stories inclusief acceptatiecriteria en inschatting](https://github.com/TristandeGraaf1/Requirementsanalyse_Chocoloco#2-actoren)	
+6.	[DoR en DoD](https://github.com/TristandeGraaf1/Requirementsanalyse_Chocoloco#2-actoren)		
+7.	[Sitemap](https://github.com/TristandeGraaf1/Requirementsanalyse_Chocoloco#2-actoren)	
+8.	[Wireframes](https://github.com/TristandeGraaf1/Requirementsanalyse_Chocoloco#2-actoren)	
 
 
 
