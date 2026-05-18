@@ -349,6 +349,48 @@ Om op deze pagina te komen moet de gebruiker via de pagina ontdekken op de knop 
 ![Login](Recepten.png)
 
 
+Community: 
+
+Om op deze pagina te komen moet de gebruiker via het dashboard  op de knop "Community" drukken.
+
+![Login](Community.png)
+
+
+Community forum: 
+
+Om op deze pagina te komen moet de gebruiker via de community  op de knop "Forum" drukken.
+
+![Login](Forumpost.png)
+
+
+Community forum post: 
+
+Om op deze pagina te komen moet de gebruiker via de community forum  op de knop "Nieuwe post maken" drukken.
+
+![Login](Berichtplaatsen.png)
+
+
+Shop 
+
+Om op deze pagina te komen moet de gebruiker via het dashboard op de knop "Shop" drukken.
+
+![Login](shop.png)
+
+
+Productcatalogus 
+
+Om op deze pagina te komen moet de gebruiker via de shop op de knop "productcatalogus" drukken.
+
+![Login](productcatalogus.png)
+
+
+Bestellen 
+
+Om op deze pagina te komen moet de gebruiker via de shop op de knop "bestellen" drukken.
+
+![Login](bestellen.png)
+
+
 
 
 
