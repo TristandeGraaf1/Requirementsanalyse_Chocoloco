@@ -342,13 +342,6 @@ Om op deze pagina te komen moet de gebruiker via de pagina ontdekken op de knop 
 ![Login](Zoeken.png)
 
 
-Zoeken: 
-
-Om op deze pagina te komen moet de gebruiker via de pagina ontdekken op de knop "Zoekfunctie" drukken.
-
-![Login](Zoeken.png)
-
-
 Recepten: 
 
 Om op deze pagina te komen moet de gebruiker via de pagina ontdekken op de knop "Recepten" drukken.
