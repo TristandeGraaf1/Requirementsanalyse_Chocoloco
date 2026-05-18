@@ -295,9 +295,84 @@ Live-chat:
 
 Loyaliteitsprogramma: Choco rewards
 
-Om op deze pagina te komen moet de gebruiker via het dashboard op de knop "Chocorewards" drukken.
+Om op deze pagina te komen moet de gebruiker via het dashboard op de knop "Chocorewards" drukken. Dit is de extra functionaliteit van Chocoloco.
 
 ![Login](Chocorewards.png)
+
+
+Producten: 
+
+Om op deze pagina te komen moet de gebruiker via het dashboard op de knop "Producten" drukken.
+
+![Login](Producten.png)
+
+
+Mijn producten: 
+
+Om op deze pagina te komen moet de gebruiker via de productpagina op de knop "Mijn producten drukken" drukken.
+
+![Login](Mijnproducten.png)
+
+
+Product registreren: 
+
+Om op deze pagina te komen moet de gebruiker via de productpagina op de knop "Product registeren" drukken.
+
+![Login](Productregisteren02.png)
+
+
+Product Details: 
+
+Om op deze pagina te komen moet de gebruiker via de "Mijnproduct" pagina op een bepaald geregistreed product drukken.
+
+![Login](Productdetails.png)
+
+
+Ontdekken: 
+
+Om op deze pagina te komen moet de gebruiker via het dashboard op de knop "Ontdekken" drukken.
+
+![Login](Ontdekken.png)
+
+
+Zoeken: 
+
+Om op deze pagina te komen moet de gebruiker via de pagina ontdekken op de knop "Zoekfunctie" drukken.
+
+![Login](Zoeken.png)
+
+
+Zoeken: 
+
+Om op deze pagina te komen moet de gebruiker via de pagina ontdekken op de knop "Zoekfunctie" drukken.
+
+![Login](Zoeken.png)
+
+
+Recepten: 
+
+Om op deze pagina te komen moet de gebruiker via de pagina ontdekken op de knop "Recepten" drukken.
+
+![Login](Recepten.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
