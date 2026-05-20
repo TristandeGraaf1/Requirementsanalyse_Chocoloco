@@ -179,6 +179,7 @@ Chocoloco wil een innovatieve mobiele applicatie ontwikkelen die klanten een gep
 
 Consumenten (B2C) die chocolade kopen en van wie hun interesse ligt bij kwaliteit en duurzame chocolade
 Zakelijke klanten (B2B) zoals supermarkten en speciaalzaken
+
 **Needs**
 
 -	Inzicht in producten ( bijvoorbeeld herkomst)
@@ -243,6 +244,7 @@ Een mobiele applicatie die kan worden gebruikt via zowel IOS als Android met als
 
 **Vision board**
 
+![Login](Visionboard.png)
 
 
 ## 5. User stories (inclusief acceptatiecriteria en inschatting)
