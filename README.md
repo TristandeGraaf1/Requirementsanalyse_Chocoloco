@@ -649,10 +649,31 @@ Om op deze pagina te komen moet de gebruiker via de shop op de knop "bestellen" 
 ![Login](bestellen.png)
 
 
+instellingen 
+
+Om op deze pagina te komen moet de gebruiker via het dashboard op de instelling knop drukken bovenin het scherm.
+
+![Login](Instellingen.png)
+
+Toegangelijkheid 
+
+Om op deze pagina te komen moet de gebruiker via instellingen op de knop Toegangelijkheid drukken.
+
+![Login](Instellingen.png)
 
 
+Event 
+
+Om op deze pagina te komen moet de gebruiker via Events&winkels op de knop winkel drukken.
+
+![Login](Winkel.png)
 
 
+Event 
+
+Om op deze pagina te komen moet de gebruiker via Events &winkels op de knop event drukken.
+
+![Login](Event.png)
 
 
 
