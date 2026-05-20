@@ -171,17 +171,77 @@ Er is een duidelijk verschil tussen de huidige en gewenste situatie. Op dit mome
 
 ## 4.	Productvisie (Met de product vision board template)
 
+**Vision**
+
+Chocoloco wil een innovatieve mobiele applicatie ontwikkelen die klanten een gepersonaliseerde en duurzame chocoladebeleving biedt. Door middel van deze applicatie word de relatie met de klant versterkt, dit komt door de slimme technologie hierdoor word klantloyaliteit vergroot.
+
+**Target Group**
+
+Consumenten (B2C) die chocolade kopen en van wie hun interesse ligt bij kwaliteit en duurzame chocolade
+Zakelijke klanten (B2B) zoals supermarkten en speciaalzaken
+**Needs**
+
+-	Inzicht in producten ( bijvoorbeeld herkomst)
+-	Gepersonaliseerde aanbiedingen.
+-	Snelle en makkelijke klantenservice
+-	Makkelijk bestellen en productregistratie
+-	Betrokkenheid via community
+-	Vragen stellen via chatbot/live chat
+-	Suggesties en feedback geven
+-	Offertes vragen
+-	
+**Product**
+ 	
+Een mobiele applicatie die kan worden gebruikt via zowel IOS als Android met als kernfunconaliteiten:
+-	Product registratie via QR-CODE en Dashboard
+-	AI-Chatbot en klantenservice
+-	Persoonlijke aanbevelingen op basis van klantdata
+-	Bestelfunctie gekoppeld aan ons ERP-systeem
+-	Community ( denk aan reviews) 
+-	Winkelzoeker via geolocatie
 
 
+**Business goals ( Voor het bedrijf zelf )**
+
+•	Verhogen van klanttevredenheid en klantloyaliteit door een persoonlijke gebruikerservaring 
+•	Versterken van customer intimacy door langdurige klantrelaties op te bouwen via gepersonaliseerde interacties, aanbevelingen en ondersteuning 
+•	Omzet verhogen door gepersonaliseerde aanbiedingen en productaanbevelingen 
+•	Verlagen van servicekosten door self-service via de AI-chatbot 
+•	Verkrijgen van betere inzichten in klantgedrag via BI-data 
+•	Ondersteunen en versterken van duurzaamheidsdoelen
+
+**Competitors**
+
+-	Chocolademerken zonder een app zoals die van ons
+-	Webshops zonder klantdata-integratie 
+-	Apps met beperkte functionaliteit
+
+**Revenue Streams**
+
+-	Verkoop via de app uit de casus “producten direct via de app bestellen”
+-	Premium producten en seizoens pakketten 
+-	Cross-selling
+-	Loyaliteitsprogramma’s
+-	Exclusieve limited editions
 
 
+**Cost Factors**
 
+-	Ontwikkeling van de app. Om deze app te ontwikkelen zullen er kosten gemaakt moeten worden
+-	Koppeling met systemen (ERP, CRM, BI)
+-	Onderhoud en updates
+-	Marketing speelt ook een rol
+-	En als laatste de klantenservice
+  
+**Channels**
 
+-	Mobiele App
+-	Pushnotificaties kunnen ook krachtig zijn
+-	Bestellen via de app
+-	CRM ( Klantdata)
+-	E-Mail marketing kan bijvoorbeeld helpen.
 
-
-
-
-
+**Vision board**
 
 
 
