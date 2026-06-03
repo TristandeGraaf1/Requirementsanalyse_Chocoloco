@@ -1,0 +1,338 @@
+{% extends "base.html" %}
+
+{% block title %}FAQ - Chocoloco{% endblock %}
+
+{% block content %}
+<div class="faq-page">
+    <!-- Hero Section -->
+    <div class="faq-hero">
+        <div>
+            <p class="faq-eyebrow">Help & Support</p>
+            <h1>Veelgestelde Vragen</h1>
+            <p>Vind hier antwoorden op jouw vragen</p>
+        </div>
+    </div>
+
+    <!-- FAQ Content -->
+    <div class="faq-content">
+        <!-- FAQ Item 1 -->
+        <div class="faq-item">
+            <button class="faq-question">
+                <span class="faq-title">Hoe kan ik een product toevoegen?</span>
+                <span class="faq-toggle">+</span>
+            </button>
+            <div class="faq-answer">
+                <p>Je kunt een product toevoegen door naar het dashboard te gaan en op "Product Toevoegen" te klikken. Vul vervolgens het productname, smaak, beschrijving en vervaldatum in. Klik op "Toevoegen" om het product op te slaan.</p>
+            </div>
+        </div>
+
+        <!-- FAQ Item 2 -->
+        <div class="faq-item">
+            <button class="faq-question">
+                <span class="faq-title">Wat is de vervaldatum functie?</span>
+                <span class="faq-toggle">+</span>
+            </button>
+            <div class="faq-answer">
+                <p>De vervaldatum functie helpt je bij het bijhouden van wanneer je producten verlopen. Je ontvangt een waarschuwing als een product binnenkort verloopt (binnen 7 dagen). Dit zorgt ervoor dat je altijd weet welke chocolade nog goed is.</p>
+            </div>
+        </div>
+
+        <!-- FAQ Item 3 -->
+        <div class="faq-item">
+            <button class="faq-question">
+                <span class="faq-title">Hoe werken favorieten?</span>
+                <span class="faq-toggle">+</span>
+            </button>
+            <div class="faq-answer">
+                <p>Je kunt producten toevoegen aan je favorieten door op het hartje te klikken op een product. Favoriete producten worden dan speciaal gemarkeerd, zodat je snel je favoriete chocolade kunt terugvinden.</p>
+            </div>
+        </div>
+
+        <!-- FAQ Item 4 -->
+        <div class="faq-item">
+            <button class="faq-question">
+                <span class="faq-title">Kan ik mijn theme aanpassen?</span>
+                <span class="faq-toggle">+</span>
+            </button>
+            <div class="faq-answer">
+                <p>Ja! Je kunt je theme aanpassen in de instellingen. Je hebt de keuze tussen een light en dark theme. Je voorkeur wordt opgeslagen en wordt gebruikt wanneer je volgende keer inlogt.</p>
+            </div>
+        </div>
+
+        <!-- FAQ Item 5 -->
+        <div class="faq-item">
+            <button class="faq-question">
+                <span class="faq-title">Hoe kan ik een product verwijderen?</span>
+                <span class="faq-toggle">+</span>
+            </button>
+            <div class="faq-answer">
+                <p>Je kunt een product verwijderen door naar het productdetail te gaan en op de "Verwijderen" knop te klikken. Je wordt gevraagd dit te bevestigen voordat het product definitief wordt verwijderd.</p>
+            </div>
+        </div>
+
+        <!-- FAQ Item 6 -->
+        <div class="faq-item">
+            <button class="faq-question">
+                <span class="faq-title">Is mijn account veilig?</span>
+                <span class="faq-toggle">+</span>
+            </button>
+            <div class="faq-answer">
+                <p>Ja, jouw account is veilig. Je wachtwoord wordt versleuteld opgeslagen en we delen je gegevens nooit met derden. Zorg ervoor dat je een sterk wachtwoord gebruikt en log uit na je sessie op gedeelde apparaten.</p>
+            </div>
+        </div>
+
+        <!-- FAQ Item 7 -->
+        <div class="faq-item">
+            <button class="faq-question">
+                <span class="faq-title">Hoe neem ik contact op met ondersteuning?</span>
+                <span class="faq-toggle">+</span>
+            </button>
+            <div class="faq-answer">
+                <p>Je kunt contact opnemen met ondersteuning via het Klantenservice menu. Daar vind je verschillende opties zoals chat met een medewerker, een terugbelfunctie, of je kunt spreken met onze Chocobot AI-assistent.</p>
+            </div>
+        </div>
+
+        <!-- FAQ Item 8 -->
+        <div class="faq-item">
+            <button class="faq-question">
+                <span class="faq-title">Kan ik mijn profiel wijzigen?</span>
+                <span class="faq-toggle">+</span>
+            </button>
+            <div class="faq-answer">
+                <p>Ja, je kunt je profielinstellingen wijzigen door naar "Instellingen" te gaan. Daar kun je je accountgegevens beheren en andere voorkeuren aanpassen.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back Button -->
+    <div class="faq-back">
+        <a href="{{ url_for('main.customer_service') }}" class="btn btn-primary">← Terug naar Klantenservice</a>
+    </div>
+</div>
+
+<style>
+    .faq-page {
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+
+    .faq-hero {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        align-items: flex-start;
+        padding: 2rem;
+        border-radius: 1.35rem;
+        background: linear-gradient(135deg, #3b2011 0%, #6b4423 55%, #9a6b44 100%);
+        color: #fffaf3;
+        box-shadow: 0 18px 40px rgba(59, 32, 17, 0.2);
+        margin-bottom: 1.2rem;
+    }
+
+    .faq-eyebrow {
+        margin: 0 0 0.25rem 0;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        font-size: 0.75rem;
+        color: rgba(255, 248, 240, 0.7);
+    }
+
+    .faq-hero h1 {
+        margin: 0;
+        color: #fffaf3;
+    }
+
+    .faq-hero p {
+        margin: 0.5rem 0 0;
+        color: #fffaf3;
+    }
+
+    .faq-content {
+        margin-bottom: 2rem;
+    }
+
+    .faq-item {
+        margin-bottom: 1rem;
+        border: none;
+        border-radius: 14px;
+        overflow: hidden;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        background: rgba(255, 255, 255, 0.76);
+        border: 1px solid rgba(107, 68, 35, 0.1);
+        box-shadow: 0 4px 12px rgba(107, 68, 35, 0.08);
+    }
+
+    .faq-item:hover {
+        box-shadow: 0 8px 24px rgba(107, 68, 35, 0.12);
+        transform: translateY(-1px);
+    }
+
+    .faq-item.active {
+        box-shadow: 0 8px 28px rgba(107, 68, 35, 0.15);
+    }
+
+    .faq-question {
+        width: 100%;
+        padding: 1.25rem;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        transition: all 0.3s;
+        text-align: left;
+        font-size: 1.05rem;
+        font-family: inherit;
+    }
+
+    .faq-question:hover {
+        background: rgba(107, 68, 35, 0.04);
+    }
+
+    .faq-item.active .faq-question {
+        background: rgba(107, 68, 35, 0.08);
+    }
+
+    .faq-title {
+        font-weight: 700;
+        color: var(--text-color);
+        flex-grow: 1;
+        font-size: 1rem;
+    }
+
+    .faq-toggle {
+        font-size: 1.5rem;
+        font-weight: 300;
+        color: var(--primary-color);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: rgba(107, 68, 35, 0.1);
+        flex-shrink: 0;
+    }
+
+    .faq-item.active .faq-toggle {
+        transform: rotate(45deg);
+        background: rgba(107, 68, 35, 0.2);
+    }
+
+    .faq-answer {
+        padding: 0 1.25rem;
+        max-height: 0;
+        overflow: hidden;
+        background: transparent;
+        color: var(--text-color);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        line-height: 1.6;
+    }
+
+    .faq-item.active .faq-answer {
+        padding: 0 1.25rem 1.25rem 1.25rem;
+    }
+
+    .faq-answer p {
+        margin: 0;
+        font-size: 0.95rem;
+        color: var(--text-secondary);
+    }
+
+    .faq-back {
+        display: flex;
+        justify-content: center;
+        padding: 2rem 0 1rem;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 0.9rem 2rem;
+        border-radius: 12px;
+        border: none;
+        cursor: pointer;
+        font-weight: 700;
+        text-align: center;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        text-decoration: none;
+        font-size: 1rem;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #6b4423 0%, #9a6b44 100%);
+        color: #fffaf3;
+        border: none;
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(135deg, #8b5a38 0%, #b8845a 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(107, 68, 35, 0.3);
+    }
+
+    .btn-secondary {
+        background: rgba(107, 68, 35, 0.1);
+        color: var(--primary-color);
+        border: 1px solid rgba(107, 68, 35, 0.2);
+    }
+
+    .btn-secondary:hover {
+        background: rgba(107, 68, 35, 0.15);
+        border-color: rgba(107, 68, 35, 0.3);
+        transform: translateY(-2px);
+    }
+
+    @media (max-width: 768px) {
+        .faq-hero {
+            padding: 1.5rem;
+        }
+
+        .faq-hero h1 {
+            font-size: 1.8rem;
+        }
+
+        .faq-question {
+            padding: 1rem;
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 0 1rem 1rem 1rem;
+        }
+
+        .faq-title {
+            font-size: 0.95rem;
+        }
+
+        .faq-toggle {
+            width: 28px;
+            height: 28px;
+            font-size: 1.2rem;
+        }
+    }
+</style>
+
+<script>
+    document.querySelectorAll('.faq-question').forEach(button => {
+        button.addEventListener('click', function() {
+            const item = this.parentElement;
+            const answer = this.nextElementSibling;
+
+            const isActive = item.classList.contains('active');
+
+            document.querySelectorAll('.faq-item').forEach(el => {
+                el.classList.remove('active');
+                const ans = el.querySelector('.faq-answer');
+                ans.style.maxHeight = '0';
+            });
+
+            if (!isActive) {
+                item.classList.add('active');
+                answer.style.maxHeight = answer.scrollHeight + 'px';
+            }
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,642 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _('Instellingen') }} - Chocoloco{% endblock %}
+
+{% block content %}
+<div class="settings-container">
+    <h1>{{ _('Instellingen') }}</h1>
+
+    <div class="settings-grid">
+        <!-- Account Section -->
+        <div class="settings-section">
+            <h2>{{ _('Accountgegevens') }}</h2>
+            <div class="setting-item">
+                <label>{{ _('Gebruikersnaam') }}</label>
+                <p class="setting-value">{{ current_user.username }}</p>
+            </div>
+            <div class="setting-item">
+                <label>{{ _('E-mailadres') }}</label>
+                <p class="setting-value">{{ current_user.email }}</p>
+            </div>
+            <div class="setting-item">
+                <label>{{ _('Lid sinds') }}</label>
+                <p class="setting-value">{{ current_user.created_at.strftime('%d-%m-%Y') }}</p>
+            </div>
+        </div>
+
+        <!-- Accessibility Section -->
+        <div class="settings-section">
+            <h2>{{ _('Toegankelijkheid') }}</h2>
+
+            <div class="setting-item">
+                <label>{{ _('Thema') }}</label>
+                <div class="theme-controls">
+                    <button type="button" class="theme-option-btn {% if current_user.theme == 'light' %}active{% endif %}" onclick="changeTheme('light')">🌞 {{ _('Light') }}</button>
+                    <button type="button" class="theme-option-btn {% if current_user.theme == 'dark' %}active{% endif %}" onclick="changeTheme('dark')">🌙 {{ _('Dark') }}</button>
+                </div>
+                <p class="setting-description">{{ _('Je thema-instelling wordt hier beheerd.') }}</p>
+            </div>
+
+            <div class="setting-item">
+                <label for="screen-reader-toggle">
+                    <input type="checkbox" id="screen-reader-toggle" class="checkbox-toggle" role="switch" aria-checked="false">
+                    {{ _('Schermlezer inschakelen') }}
+                </label>
+                <p class="setting-description">Zorgt voor betere ondersteuning met schermlezer applicaties</p>
+            </div>
+
+            <div class="setting-item">
+                <label for="font-size-select">{{ _('Lettergrootte') }}</label>
+                <div class="font-size-controls">
+                    <button class="font-size-btn" data-size="small">A</button>
+                    <button class="font-size-btn" data-size="normal">A</button>
+                    <button class="font-size-btn" data-size="large">A</button>
+                    <button class="font-size-btn" data-size="xlarge">A</button>
+                </div>
+                <select id="font-size-select" onchange="changeFontSize(this.value)">
+                    <option value="normal" selected>{{ _('Normaal') }}</option>
+                    <option value="small">{{ _('Klein') }}</option>
+                    <option value="large">{{ _('Groot') }}</option>
+                    <option value="xlarge">{{ _('Extra groot') }}</option>
+                </select>
+            </div>
+
+            <div class="setting-item">
+                <label for="contrast-select">{{ _('Contrast') }}</label>
+                <select id="contrast-select" onchange="changeContrast(this.value)">
+                    <option value="normal" selected>{{ _('Normaal') }}</option>
+                    <option value="high">{{ _('Hoog contrast') }}</option>
+                    <option value="sepia">{{ _('Sepia') }}</option>
+                </select>
+            </div>
+
+            <div class="setting-item">
+                <label for="focus-mode-toggle">
+                    <input type="checkbox" id="focus-mode-toggle" class="checkbox-toggle">
+                    {{ _('Focus modus (vermindert afleiding)') }}
+                </label>
+            </div>
+        </div>
+
+        <!-- Preferences Section -->
+        <div class="settings-section">
+            <h2>{{ _('Voorkeuren') }}</h2>
+
+            <div class="setting-item">
+                <label for="language-select">{{ _('Taal') }}</label>
+                <select id="language-select" onchange="changeLanguage(this.value)">
+                    <option value="nl" {% if current_user.language == 'nl' %}selected{% endif %}>{{ _('Nederlands') }}</option>
+                    <option value="de" {% if current_user.language == 'de' %}selected{% endif %}>{{ _('Deutsch') }}</option>
+                    <option value="en" {% if current_user.language == 'en' %}selected{% endif %}>{{ _('English') }}</option>
+                    <option value="fr" {% if current_user.language == 'fr' %}selected{% endif %}>{{ _('Francais') }}</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Notifications Section -->
+        <div class="settings-section">
+            <h2>{{ _('Meldingen') }}</h2>
+
+            <div class="setting-item">
+                <label>{{ _('Welke meldingen wil je in de meldingsbel ontvangen?') }}</label>
+                <div class="setting-description">Kies per categorie of je een melding wilt ontvangen.</div>
+                <div style="margin-top:0.6rem;">
+                    <label><input type="checkbox" id="notif-orders"> {{ _('Bestellingen') }}</label><br>
+                    <label><input type="checkbox" id="notif-offers"> {{ _('Aanbiedingen & Kortingen') }}</label><br>
+                    <label><input type="checkbox" id="notif-chat"> {{ _('Livechat berichten') }}</label><br>
+                    <label><input type="checkbox" id="notif-news"> {{ _('Nieuws & Updates') }}</label>
+                </div>
+            </div>
+
+            <div class="setting-item">
+                <label for="dnd-toggle">
+                    <input type="checkbox" id="dnd-toggle" class="checkbox-toggle" role="switch" aria-checked="false">
+                    {{ _('Niet storen (meldingen dempen)') }}
+                </label>
+                <p class="setting-description">Wanneer ingeschakeld worden geluiden en visuele banners gedempt.</p>
+            </div>
+        </div>
+
+        <!-- Dashboard Layout Section -->
+        <div class="settings-section">
+            <h2>Dashboard Indeling</h2>
+            <div class="setting-item">
+                <p class="setting-description">Pas de volgorde van je dashboard kaarten aan naar je voorkeur.</p>
+                <button id="open-layout-editor-btn" class="btn btn-primary">Indeling Aanpassen</button>
+            </div>
+        </div>
+
+        <!-- Security Section -->
+        <div class="settings-section">
+            <h2>Beveiliging</h2>
+            <div class="setting-item">
+                <a href="{{ url_for('main.change_password') }}" class="btn btn-secondary">Wachtwoord wijzigen</a>
+            </div>
+            <div class="setting-item">
+                <a href="{{ url_for('auth.logout') }}" class="btn btn-danger">{{ _('Uitloggen') }}</a>
+            </div>
+        </div>
+
+        <!-- Privacy Section -->
+        <div class="settings-section">
+            <h2>Privacy & Compliance</h2>
+            <div class="setting-item">
+                <p class="setting-description">Lees onze voorwaarden die voldoen aan de AVG en GDPR regelgeving.</p>
+                <a href="{{ url_for('main.privacy') }}" class="btn btn-primary">Algemene Voorwaarden</a>
+            </div>
+        </div>
+    </div>
+
+    <p class="settings-footer-note">MMM label: Helemaal gen AI</p>
+
+    <!-- Back Button -->
+    <div class="back-container">
+        <a href="{{ url_for('main.dashboard') }}" class="btn btn-secondary">Terug naar dashboard</a>
+    </div>
+</div>
+
+<style>
+    .settings-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+    }
+
+    .settings-container h1 {
+        font-size: 2rem;
+        color: var(--primary-color);
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+
+    .settings-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .settings-section {
+        background: var(--card-bg);
+        border-radius: 0.8rem;
+        padding: 2rem;
+        box-shadow: var(--shadow-light);
+        border: 1px solid var(--border-color);
+        transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+
+    .settings-section:hover {
+        box-shadow: var(--shadow);
+        transform: translateY(-2px);
+    }
+
+    .settings-section h2 {
+        font-size: 1.3rem;
+        color: var(--primary-color);
+        margin: 0 0 1.5rem 0;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid var(--accent-color);
+    }
+
+    .setting-item {
+        margin-bottom: 1.5rem;
+    }
+
+    .setting-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .setting-item label {
+        display: block;
+        font-weight: 600;
+        color: var(--text-color);
+        margin-bottom: 0.6rem;
+        font-size: 0.95rem;
+    }
+
+    .setting-value {
+        color: var(--text-secondary);
+        font-size: 1rem;
+        margin: 0;
+        padding: 0.8rem;
+        background: var(--input-bg);
+        border-radius: 0.4rem;
+        border: 1px solid var(--border-color);
+    }
+
+    .setting-description {
+        color: var(--text-secondary);
+        font-size: 0.85rem;
+        margin: 0.5rem 0 0 0;
+        line-height: 1.4;
+    }
+
+    .setting-item select {
+        width: 100%;
+        padding: 0.8rem;
+        border: 1px solid var(--border-color);
+        border-radius: 0.4rem;
+        background: var(--input-bg);
+        color: var(--text-color);
+        font-size: 0.95rem;
+        transition: border-color 0.3s ease;
+    }
+
+    .setting-item select:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(107, 68, 35, 0.1);
+    }
+
+    .theme-controls {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+    }
+
+    .theme-option-btn {
+        padding: 0.75rem 1rem;
+        border-radius: 0.6rem;
+        border: 2px solid var(--border-color);
+        background: var(--input-bg);
+        color: var(--text-color);
+        cursor: pointer;
+        font-weight: 700;
+        transition: all 0.2s ease;
+    }
+
+    .theme-option-btn:hover {
+        border-color: var(--primary-color);
+        transform: translateY(-1px);
+    }
+
+    .theme-option-btn.active {
+        background: var(--primary-color);
+        color: var(--card-bg);
+        border-color: var(--primary-color);
+    }
+
+    .back-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 2rem;
+    }
+
+    .settings-footer-note {
+        margin: 0 0 0.75rem 0;
+        text-align: center;
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        opacity: 0.8;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 0.8rem 1.6rem;
+        border-radius: 0.4rem;
+        border: none;
+        cursor: pointer;
+        font-weight: 600;
+        text-align: center;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        font-size: 0.95rem;
+    }
+
+    .btn-secondary {
+        background: var(--card-bg);
+        color: var(--primary-color);
+        border: 2px solid var(--primary-color);
+    }
+
+    .btn-secondary:hover {
+        background: var(--primary-color);
+        color: var(--card-bg);
+    }
+
+    .btn-primary {
+        background: var(--primary-color);
+        color: var(--card-bg);
+        border: 2px solid var(--primary-color);
+    }
+
+    .btn-primary:hover {
+        background: var(--primary-dark);
+        border-color: var(--primary-dark);
+    }
+
+    .btn-danger {
+        background: var(--danger-color);
+        color: white;
+        border: 2px solid var(--danger-color);
+    }
+
+    .btn-danger:hover {
+        background: #c82333;
+        border-color: #c82333;
+    }
+
+    .checkbox-toggle {
+        width: 20px;
+        height: 20px;
+        margin-right: 0.8rem;
+        cursor: pointer;
+        vertical-align: middle;
+        accent-color: var(--primary-color);
+    }
+
+    .checkbox-toggle + label {
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        margin: 0;
+        font-weight: 600;
+        color: var(--text-color);
+    }
+
+    .font-size-controls {
+        display: flex;
+        gap: 0.6rem;
+        margin-bottom: 1rem;
+    }
+
+    .font-size-btn {
+        width: 44px;
+        height: 44px;
+        border-radius: 0.4rem;
+        border: 2px solid var(--border-color);
+        background: var(--input-bg);
+        color: var(--text-color);
+        cursor: pointer;
+        font-weight: 700;
+        transition: all 0.3s ease;
+    }
+
+    .font-size-btn[data-size="small"] {
+        font-size: 0.85rem;
+    }
+
+    .font-size-btn[data-size="normal"] {
+        font-size: 1rem;
+    }
+
+    .font-size-btn[data-size="large"] {
+        font-size: 1.2rem;
+    }
+
+    .font-size-btn[data-size="xlarge"] {
+        font-size: 1.4rem;
+    }
+
+    .font-size-btn:hover {
+        border-color: var(--primary-color);
+        background: var(--accent-color);
+        color: var(--text-color);
+    }
+
+    .font-size-btn.active {
+        background: var(--primary-color);
+        color: var(--card-bg);
+        border-color: var(--primary-color);
+    }
+
+    @media (max-width: 768px) {
+        .settings-container {
+            padding: 1rem;
+        }
+
+        .settings-grid {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .settings-section {
+            padding: 1.5rem;
+        }
+
+        .settings-section h2 {
+            font-size: 1.1rem;
+        }
+
+        .btn {
+            padding: 0.7rem 1.2rem;
+            font-size: 0.9rem;
+        }
+    }
+</style>
+
+<script>
+    // Accessibility Settings
+    const STORAGE_KEY = 'accessibility_settings';
+
+    function initAccessibilitySettings() {
+        const settings = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
+            screenReader: false,
+            fontSize: 'normal',
+            contrast: 'normal',
+            focusMode: false,
+            notificationSettings: {
+                orders: true,
+                offers: true,
+                chat: true,
+                news: true,
+                dnd: false
+            }
+        };
+
+        // Apply settings
+        if (settings.screenReader) {
+            document.documentElement.setAttribute('data-screen-reader', 'true');
+            const srToggle = document.getElementById('screen-reader-toggle');
+            if (srToggle) { srToggle.checked = true; srToggle.setAttribute('aria-checked', 'true'); }
+        }
+
+        if (settings.fontSize !== 'normal') {
+            changeFontSize(settings.fontSize, false);
+            document.getElementById('font-size-select').value = settings.fontSize;
+        }
+
+        if (settings.contrast !== 'normal') {
+            changeContrast(settings.contrast, false);
+            document.getElementById('contrast-select').value = settings.contrast;
+        }
+
+        if (settings.focusMode) {
+            document.documentElement.setAttribute('data-focus-mode', 'true');
+            document.getElementById('focus-mode-toggle').checked = true;
+        }
+
+        // Apply notification settings if present
+        try {
+            const notif = settings.notificationSettings || {};
+            const nOrders = document.getElementById('notif-orders');
+            const nOffers = document.getElementById('notif-offers');
+            const nChat = document.getElementById('notif-chat');
+            const nNews = document.getElementById('notif-news');
+            const dndToggle = document.getElementById('dnd-toggle');
+            if (nOrders) nOrders.checked = notif.orders !== false;
+            if (nOffers) nOffers.checked = notif.offers !== false;
+            if (nChat) nChat.checked = notif.chat !== false;
+            if (nNews) nNews.checked = notif.news !== false;
+            if (dndToggle) { dndToggle.checked = !!notif.dnd; dndToggle.setAttribute('aria-checked', dndToggle.checked ? 'true' : 'false'); }
+        } catch (e) {}
+
+        updateFontSizeButtons(settings.fontSize);
+    }
+
+    function saveSettings() {
+        const settings = {
+            screenReader: document.getElementById('screen-reader-toggle').checked,
+            fontSize: document.getElementById('font-size-select').value,
+            contrast: document.getElementById('contrast-select').value,
+            focusMode: document.getElementById('focus-mode-toggle').checked,
+            notificationSettings: {
+                orders: document.getElementById('notif-orders') ? document.getElementById('notif-orders').checked : true,
+                offers: document.getElementById('notif-offers') ? document.getElementById('notif-offers').checked : true,
+                chat: document.getElementById('notif-chat') ? document.getElementById('notif-chat').checked : true,
+                news: document.getElementById('notif-news') ? document.getElementById('notif-news').checked : true,
+                dnd: document.getElementById('dnd-toggle') ? document.getElementById('dnd-toggle').checked : false
+            }
+        };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
+    }
+
+    function toggleScreenReader() {
+        const toggle = document.getElementById('screen-reader-toggle');
+        if (toggle.checked) {
+            document.documentElement.setAttribute('data-screen-reader', 'true');
+            toggle.setAttribute('aria-checked', 'true');
+            announce('Schermlezer is ingeschakeld');
+            try { const globalA11y = document.getElementById('shopA11yStatus'); if (globalA11y) globalA11y.textContent = 'Schermlezer ingeschakeld'; } catch (e) {}
+        } else {
+            document.documentElement.removeAttribute('data-screen-reader');
+            toggle.setAttribute('aria-checked', 'false');
+            try { const globalA11y = document.getElementById('shopA11yStatus'); if (globalA11y) globalA11y.textContent = 'Schermlezer uitgeschakeld'; } catch (e) {}
+        }
+        saveSettings();
+    }
+
+    function changeFontSize(size, save = true) {
+        document.documentElement.setAttribute('data-font-size', size);
+        if (save) {
+            document.getElementById('font-size-select').value = size;
+        }
+        updateFontSizeButtons(size);
+        if (save) saveSettings();
+    }
+
+    function updateFontSizeButtons(activeSize) {
+        document.querySelectorAll('.font-size-btn').forEach(btn => {
+            if (btn.dataset.size === activeSize) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+    }
+
+    function changeContrast(mode, save = true) {
+        document.documentElement.setAttribute('data-contrast', mode);
+        if (save) {
+            document.getElementById('contrast-select').value = mode;
+            saveSettings();
+        }
+    }
+
+    function toggleFocusMode() {
+        const toggle = document.getElementById('focus-mode-toggle');
+        if (toggle.checked) {
+            document.documentElement.setAttribute('data-focus-mode', 'true');
+            announce('Focus modus is ingeschakeld');
+        } else {
+            document.documentElement.removeAttribute('data-focus-mode');
+        }
+        saveSettings();
+    }
+
+    function announce(message) {
+        const announcement = document.createElement('div');
+        announcement.setAttribute('role', 'status');
+        announcement.setAttribute('aria-live', 'polite');
+        announcement.className = 'sr-only';
+        announcement.textContent = message;
+        document.body.appendChild(announcement);
+        // Also update global a11y status live region if present
+        try {
+            const globalA11y = document.getElementById('shopA11yStatus');
+            if (globalA11y) globalA11y.textContent = message;
+        } catch (e) {
+            // ignore
+        }
+        // Keep announcement in DOM a bit longer for some screen readers
+        setTimeout(() => announcement.remove(), 2000);
+    }
+
+    function changeTheme(theme) {
+        fetch('{{ url_for("main.set_theme", theme="") }}' + theme, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'}
+        }).then(() => {
+            location.reload();
+        });
+    }
+
+    function changeLanguage(language) {
+        fetch('{{ url_for("main.set_language", lang="") }}' + language, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'}
+        }).then(() => {
+            location.reload();
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize accessibility settings
+        initAccessibilitySettings();
+
+        // Screen reader toggle
+        const screenReaderToggle = document.getElementById('screen-reader-toggle');
+        if (screenReaderToggle) {
+            screenReaderToggle.addEventListener('change', toggleScreenReader);
+        }
+
+        // Font size buttons
+        document.querySelectorAll('.font-size-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                changeFontSize(this.dataset.size);
+            });
+        });
+
+        // Focus mode toggle
+        const focusModeToggle = document.getElementById('focus-mode-toggle');
+        if (focusModeToggle) {
+            focusModeToggle.addEventListener('change', toggleFocusMode);
+        }
+
+        // Layout editor button
+        const openLayoutBtn = document.getElementById('open-layout-editor-btn');
+        if (openLayoutBtn) {
+            openLayoutBtn.addEventListener('click', function() {
+                window.location.href = '{{ url_for("main.dashboard") }}?edit=true';
+            });
+        }
+
+        // Notification preferences listeners
+        const notifIds = ['notif-orders','notif-offers','notif-chat','notif-news'];
+        notifIds.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.addEventListener('change', function() { saveSettings(); });
+        });
+
+        const dndToggle = document.getElementById('dnd-toggle');
+        if (dndToggle) {
+            dndToggle.addEventListener('change', function() {
+                dndToggle.setAttribute('aria-checked', dndToggle.checked ? 'true' : 'false');
+                saveSettings();
+                announce(dndToggle.checked ? 'Niet storen is ingeschakeld' : 'Niet storen is uitgeschakeld');
+                try { const globalA11y = document.getElementById('shopA11yStatus'); if (globalA11y) globalA11y.textContent = dndToggle.checked ? 'Niet storen ingeschakeld' : 'Niet storen uitgeschakeld'; } catch (e) {}
+            });
+        }
+    });
+</script>
+{% endblock %}

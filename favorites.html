@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}Community - Chocoloco{% endblock %}
+
+{% block content %}
+<div class="section-container community-wrap">
+    <div class="community-hero">
+        <div class="community-hero-content">
+            <div class="community-hero-copy">
+                <span class="community-hero-eyebrow">Chocoloco Community</span>
+                <h1 class="community-hero-title">Warm, behulpzaam en helemaal van Chocoloco.</h1>
+                <p class="community-hero-sub">Zoek bestaande topics, stel je vraag of deel je eigen ervaring in een community die past bij de Chocoloco-sfeer.</p>
+            </div>
+            <div class="community-hero-panel">
+                <form method="get" action="{{ url_for('main.community') }}" class="banner-search hero-search">
+                    <label class="hero-search-label" for="communitySearch">Zoek in de Chocoloco community</label>
+                    <div class="hero-search-row">
+                        <input id="communitySearch" type="search" name="q" placeholder="Zoek topics, tips of vragen..." value="{{ q if q is defined else '' }}" class="search-input hero-search-input">
+                        <button class="btn btn-primary hero-search-btn">Zoek</button>
+                    </div>
+                </form>
+                <a href="{{ url_for('main.community_new') }}" class="btn btn-secondary hero-cta">Nieuw onderwerp</a>
+            </div>
+        </div>
+    </div>
+    <div class="section-header">
+        <h2 class="section-title">Communityforum</h2>
+        <a href="{{ url_for('main.community_new') }}" class="btn btn-secondary">Nieuw onderwerp</a>
+    </div>
+
+    {% if topics %}
+    <div class="community-grid">
+        <div class="community-main">
+            <div class="community-list">
+                {% for t in topics %}
+                <a href="{{ url_for('main.community_topic', topic_id=t.id) }}" class="topic-card">
+                    <div class="topic-left">
+                        {% set badge = contribution_badge(t.user.id) if t.user else {'label':'Newbie','class':'badge-newbie'} %}
+                        <div class="avatar-shell {{ badge.class }}">
+                            <div class="avatar">{{ t.user.username[0]|upper if t.user else 'G' }}</div>
+                            <span class="avatar-badge">{{ badge.label }}</span>
+                        </div>
+                    </div>
+                    <div class="topic-main">
+                        <h3 class="topic-title">{{ t.title }}</h3>
+                        <p class="topic-meta">Door <strong>{{ t.user.username if t.user else 'Gebruiker' }}</strong> — {{ t.created_at.strftime('%d-%m-%Y %H:%M') }}</p>
+                        <p class="topic-excerpt">{{ t.body[:220] ~ ('...' if t.body|length > 220 else '') }}</p>
+                    </div>
+                    <div class="topic-right">
+                        <div class="topic-stats">
+                            <span class="stat">💬 {{ t.replies|length }}</span>
+                            <span class="stat muted">{{ t.created_at.strftime('%d-%m-%Y') }}</span>
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <aside class="community-side">
+            <div class="card">
+                <h3 class="section-title">Top bijdragers</h3>
+                {% if top_contributors %}
+                <ul class="leaderboard">
+                    {% for c in top_contributors %}
+                    <li class="contributor-card">
+                        {% set badge = contribution_badge(c.user.id) %}
+                        <div class="avatar-shell small {{ badge.class }}">
+                            <div class="avatar small">{{ c.user.username[0]|upper }}</div>
+                            <span class="avatar-badge">{{ badge.label }}</span>
+                        </div>
+                        <div class="contrib-main">
+                            <div class="contrib-name">{{ c.user.username }}</div>
+                            <div class="contrib-count muted">{{ c.count }} bijdrages</div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p class="muted">Nog geen bijdragers.</p>
+                {% endif %}
+            </div>
+        </aside>
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <div class="empty-icon">💬</div>
+        <h2>Geen onderwerpen</h2>
+        <p>Er zijn nog geen onderwerpen — begin de conversatie door een nieuw onderwerp aan te maken.</p>
+        <a href="{{ url_for('main.community_new') }}" class="btn btn-primary">Nieuw onderwerp aanmaken</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

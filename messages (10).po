@@ -1,0 +1,334 @@
+{% extends "base.html" %}
+
+{% block title %}Shop - Chocoloco{% endblock %}
+
+{% block content %}
+<div class="shop-page">
+    <div id="shopA11yStatus" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
+    {% if session.active_discount %}
+    <div class="shop-discount-banner">
+        Kortingscode <strong>{{ session.active_discount.code }}</strong> toegevoegd: €{{ '%.2f'|format(session.active_discount.amount) }} korting — wordt toegepast bij afrekenen.
+    </div>
+    {% endif %}
+    <section class="shop-hero">
+        <div class="shop-hero-copy">
+            <p class="shop-eyebrow">Chocoloco Boutique</p>
+            <h1>Een chocolade webshop met luxe, warmte en karakter.</h1>
+            <p>Ontdek zorgvuldig samengestelde repen, pralines en seizoensspecials. Elke selectie voelt als een cadeau, zelfs als je hem voor jezelf bestelt.</p>
+            <div class="shop-hero-actions">
+                <a href="#catalogus" class="btn btn-primary btn-large">Bekijk collectie</a>
+                <a href="{{ url_for('main.customer_service') }}" class="btn btn-secondary btn-large">Advies nodig?</a>
+            </div>
+            <div class="shop-highlights">
+                {% for highlight in featured_highlights %}
+                <div class="shop-highlight">
+                    <span>{{ highlight.label }}</span>
+                    <strong>{{ highlight.value }}</strong>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <aside class="shop-hero-panel">
+            <div class="hero-panel-title">Vandaag populair</div>
+            <div class="hero-panel-item">
+                <span>🍫</span>
+                <div>
+                    <strong>Grand Cru 72%</strong>
+                    <p>Pure cacao voor liefhebbers van diepe smaak.</p>
+                </div>
+            </div>
+            <div class="hero-panel-item">
+                <span>✨</span>
+                <div>
+                    <strong>Cadeauverpakking</strong>
+                    <p>Glanzende doosjes met lint en premium afwerking.</p>
+                </div>
+            </div>
+            <div class="hero-panel-item">
+                <span>🚚</span>
+                <div>
+                    <strong>Snelle levering</strong>
+                    <p>Koel verpakt zodat de chocolade perfect aankomt.</p>
+                </div>
+            </div>
+        </aside>
+    </section>
+
+    <section class="shop-toolbar" aria-label="Shop filters">
+        <div class="shop-search-wrap">
+            <label class="shop-search-label" for="shopSearch">Zoek chocolade</label>
+            <input id="shopSearch" class="shop-search-input" type="search" placeholder="Zoek op smaak, categorie of herkomst" aria-label="Zoek chocolade">
+        </div>
+        <div class="shop-category-chips" id="shopCategoryChips">
+            {% for category in shop_categories %}
+            <button type="button" class="shop-chip {% if loop.first %}is-active{% endif %}" data-category="{{ category }}">{{ category }}</button>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="shop-layout" id="catalogus">
+        <div>
+            <div class="section-header shop-section-header">
+                <div>
+                    <p class="hub-kicker">Assortiment</p>
+                    <h2 class="section-title">Onze chocolade selectie</h2>
+                </div>
+                <p class="shop-result-count" id="shopResultCount">{{ shop_products|length }} producten</p>
+            </div>
+
+            <div class="shop-grid" id="shopGrid">
+                {% for product in shop_products %}
+                <article class="shop-card" data-category="{{ product.category }}" data-name="{{ product.name|lower }}" data-description="{{ product.description|lower }}" data-origin="{{ product.origin|lower }}">
+                    <div class="shop-card-top">
+                        <span class="shop-card-badge">{{ product.badge }}</span>
+                        <span class="shop-card-rating">★ {{ product.rating }}</span>
+                    </div>
+                    <div class="shop-card-emoji">{{ product.emoji }}</div>
+                    <h3>{{ product.name }}</h3>
+                    <p class="shop-card-category">{{ product.category }} · {{ product.origin }}</p>
+                    <p class="shop-card-description">{{ product.description }}</p>
+                    <div class="shop-card-meta">
+                        <span>{{ product.weight }}</span>
+                        <strong>€ {{ '%.2f'|format(product.price) }}</strong>
+                    </div>
+                    <div class="shop-card-controls">
+                        <label for="qty-{{ loop.index }}" class="visually-hidden">Aantal</label>
+                        <input id="qty-{{ loop.index }}" class="shop-qty-input" type="number" min="1" value="1" data-product-name="{{ product.name }}">
+                        <button type="button" class="btn btn-small shop-add-btn" data-product-name="{{ product.name }}" data-product-price="{{ product.price }}">Voeg toe aan mandje</button>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+        </div>
+
+        <aside class="shop-cart-panel">
+            <div class="shop-cart-header">
+                <div>
+                    <p class="hub-kicker">Winkelmand</p>
+                    <h3>Jouw selectie</h3>
+                </div>
+                <span class="shop-cart-count" id="shopCartCount">0</span>
+            </div>
+            <div class="shop-cart-items" id="shopCartItems">
+                <p class="shop-cart-empty">Je mandje is nog leeg. Voeg een paar chocolades toe om het totaal te zien.</p>
+            </div>
+            <div class="shop-cart-summary">
+                <div>
+                    <span>Totaal</span>
+                    <strong id="shopCartTotal">€ 0,00</strong>
+                </div>
+                <a href="{{ url_for('main.checkout') }}" class="btn btn-primary btn-block">Naar afrekenen</a>
+                <p class="shop-cart-note">Bestel nu, of vraag eerst advies via klantenservice voor cadeau- en smaakadvies.</p>
+            </div>
+        </aside>
+    </section>
+</div>
+
+<script>
+    (function () {
+        const searchInput = document.getElementById('shopSearch');
+        const categoryChips = Array.from(document.querySelectorAll('.shop-chip'));
+        const shopCards = Array.from(document.querySelectorAll('.shop-card'));
+
+        // Debug helpers: surface counts to console for troubleshooting
+        try {
+            console.log('shop:init', { searchInputPresent: !!searchInput, shopCards: shopCards.length, categoryChips: categoryChips.length });
+        } catch (e) {
+            // ignore
+        }
+        const resultCount = document.getElementById('shopResultCount');
+        const a11yStatus = document.getElementById('shopA11yStatus');
+        const cartItems = document.getElementById('shopCartItems');
+        const cartCount = document.getElementById('shopCartCount');
+        const cartTotal = document.getElementById('shopCartTotal');
+        const activeCart = new Map();
+        let activeCategory = 'Alles';
+        const storageKey = 'chocoloco_shop_cart';
+
+        const money = new Intl.NumberFormat('nl-NL', { style: 'currency', currency: 'EUR' });
+
+        function computeTotal(items) {
+            return items.reduce((sum, item) => sum + (Number(item.price || 0) * Number(item.qty || 0)), 0);
+        }
+
+        function syncStorage() {
+            const serialized = JSON.stringify(Array.from(activeCart.values()));
+            localStorage.setItem(storageKey, serialized);
+
+            fetch('{{ url_for('main.save_cart') }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    items: Array.from(activeCart.values()),
+                    total: computeTotal(Array.from(activeCart.values()))
+                })
+            }).catch(function () {
+                return null;
+            });
+        }
+
+        function updateCart() {
+            const items = Array.from(activeCart.values());
+            const totalQty = items.reduce((s, it) => s + (Number(it.qty || 0)), 0);
+            cartCount.textContent = String(totalQty);
+
+            const total = computeTotal(items);
+            cartTotal.textContent = money.format(total);
+
+            if (!items.length) {
+                cartItems.innerHTML = '<p class="shop-cart-empty">Je mandje is nog leeg. Voeg een paar chocolades toe om het totaal te zien.</p>';
+                syncStorage();
+                if (a11yStatus) a11yStatus.textContent = 'Winkelmandje is leeg';
+                return;
+            }
+
+            cartItems.innerHTML = items.map(function (item) {
+                const subtotal = Number(item.price || 0) * Number(item.qty || 0);
+                    return '<div class="shop-cart-item">'
+                        + '<div><strong>' + item.name + '</strong><p>' + money.format(Number(item.price || 0)) + ' × ' + Number(item.qty || 0) + ' = ' + money.format(subtotal) + '</p></div>'
+                        + '<div class="shop-cart-controls">'
+                        + '<button type="button" class="btn btn-small shop-cart-decrease" data-product-name="' + item.name + '">-</button>'
+                        + '<span class="shop-cart-qty">' + Number(item.qty || 0) + '</span>'
+                        + '<button type="button" class="btn btn-small shop-cart-increase" data-product-name="' + item.name + '">+</button>'
+                        + '</div>'
+                        + '<button type="button" class="btn btn-small shop-cart-remove" data-product-name="' + item.name + '">Verwijder</button>'
+                        + '</div>';
+            }).join('');
+
+            syncStorage();
+            if (a11yStatus) a11yStatus.textContent = totalQty + ' items in winkelmand, totaal ' + money.format(total);
+        }
+
+        function matchesFilters(card) {
+            const query = (searchInput && searchInput.value ? searchInput.value : '').trim().toLowerCase();
+            const category = card.dataset.category;
+            const text = [card.dataset.name, card.dataset.description, card.dataset.origin, category].join(' ');
+            const matchesQuery = !query || text.includes(query);
+            const matchesCategory = activeCategory === 'Alles' || category === activeCategory;
+            return matchesQuery && matchesCategory;
+        }
+
+        function applyFilters() {
+            let visibleCount = 0;
+            const query = (searchInput && searchInput.value) ? (searchInput.value || '').trim().toLowerCase() : '';
+            console.debug('shop:applyFilters', { query: query, activeCategory: activeCategory, totalCards: shopCards.length });
+            shopCards.forEach(function (card, idx) {
+                const isVisible = matchesFilters(card);
+                // Use style.display for compatibility with CSS that might override [hidden]
+                card.style.display = isVisible ? '' : 'none';
+                if (isVisible) {
+                    visibleCount += 1;
+                } else {
+                    // for debugging, log first few hidden cards
+                    if (idx < 5) console.debug('shop:hide', { idx: idx, name: card.dataset.name, category: card.dataset.category });
+                }
+            });
+            if (resultCount) resultCount.textContent = visibleCount + ' product' + (visibleCount === 1 ? '' : 'en');
+            if (a11yStatus) a11yStatus.textContent = visibleCount + ' producten zichtbaar';
+        }
+
+        if (searchInput) {
+            searchInput.addEventListener('input', applyFilters);
+            searchInput.addEventListener('keyup', applyFilters);
+        } else {
+            console.warn('shop: search input not found, search disabled');
+        }
+
+        categoryChips.forEach(function (chip) {
+            chip.addEventListener('click', function () {
+                activeCategory = chip.dataset.category;
+                categoryChips.forEach(function (otherChip) {
+                    otherChip.classList.toggle('is-active', otherChip === chip);
+                });
+                applyFilters();
+            });
+        });
+
+        document.getElementById('shopGrid').addEventListener('click', function (event) {
+            const addButton = event.target.closest('.shop-add-btn');
+
+            if (addButton) {
+                const productName = addButton.dataset.productName;
+                const productPrice = Number(addButton.dataset.productPrice);
+                const card = addButton.closest('.shop-card');
+                const qtyInput = card && card.querySelector('.shop-qty-input');
+                const qty = Math.max(1, Number(qtyInput && qtyInput.value) || 1);
+
+                if (activeCart.has(productName)) {
+                    const existing = activeCart.get(productName);
+                    existing.qty = (Number(existing.qty || 0) + qty);
+                    activeCart.set(productName, existing);
+                } else {
+                    activeCart.set(productName, { name: productName, price: productPrice, qty: qty });
+                }
+                updateCart();
+                if (a11yStatus) a11yStatus.textContent = qty + ' keer ' + productName + ' toegevoegd aan winkelmandje';
+                return;
+            }
+        });
+
+        cartItems.addEventListener('click', function (event) {
+            const removeButton = event.target.closest('.shop-cart-remove');
+            const decButton = event.target.closest('.shop-cart-decrease');
+            const incButton = event.target.closest('.shop-cart-increase');
+
+            if (removeButton) {
+                activeCart.delete(removeButton.dataset.productName);
+                updateCart();
+                return;
+            }
+
+            if (decButton) {
+                const name = decButton.dataset.productName;
+                if (activeCart.has(name)) {
+                    const it = activeCart.get(name);
+                    it.qty = Math.max(1, Number(it.qty || 0) - 1);
+                    activeCart.set(name, it);
+                    updateCart();
+                }
+                return;
+            }
+
+            if (incButton) {
+                const name = incButton.dataset.productName;
+                if (activeCart.has(name)) {
+                    const it = activeCart.get(name);
+                    it.qty = Number(it.qty || 0) + 1;
+                    activeCart.set(name, it);
+                    updateCart();
+                }
+                return;
+            }
+        });
+
+        try {
+            const storedCart = JSON.parse(localStorage.getItem(storageKey) || '[]');
+            storedCart.forEach(function (item) {
+                if (item && item.name) {
+                    // ensure qty is a number
+                    item.qty = Number(item.qty || 1);
+                    item.price = Number(item.price || 0);
+                    activeCart.set(item.name, item);
+                }
+            });
+        } catch (error) {
+            localStorage.removeItem(storageKey);
+        }
+
+        try {
+            updateCart();
+        } catch (err) {
+            console.error('shop:updateCart failed', err);
+        }
+
+        try {
+            applyFilters();
+        } catch (err) {
+            console.error('shop:applyFilters failed', err);
+        }
+    })();
+</script>
+{% endblock %}

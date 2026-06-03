@@ -1,0 +1,461 @@
+{% extends "base.html" %}
+
+{% block title %}Product registreren - Chocoloco{% endblock %}
+
+{% block content %}
+<div class="product-register-page">
+    <div class="page-header">
+        <a href="{{ url_for('main.product_hub') }}" class="btn btn-secondary">← Terug naar producten</a>
+        <h1>Product registreren</h1>
+        <p>Vul een barcode in of gebruik de scanner om de code automatisch in te vullen.</p>
+    </div>
+
+    <div class="register-layout">
+        <div class="register-card">
+            <form method="POST" class="form product-register-form" id="product-register-form">
+                {{ form.hidden_tag() }}
+
+                <div class="form-group">
+                    {{ form.product_code.label }}
+                    {% if form.product_code.errors %}
+                        {{ form.product_code(class="form-input error", placeholder="b.v. CHOCO-2026-001") }}
+                        <ul class="errors">
+                        {% for error in form.product_code.errors %}<li>{{ error }}</li>{% endfor %}
+                        </ul>
+                    {% else %}
+                        {{ form.product_code(class="form-input", placeholder="b.v. CHOCO-2026-001") }}
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.name.label }}
+                    {% if form.name.errors %}
+                        {{ form.name(class="form-input error", placeholder="b.v. Hazelnootreep") }}
+                        <ul class="errors">
+                        {% for error in form.name.errors %}<li>{{ error }}</li>{% endfor %}
+                        </ul>
+                    {% else %}
+                        {{ form.name(class="form-input", placeholder="b.v. Hazelnootreep") }}
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.expiry_date.label }}
+                    {% if form.expiry_date.errors %}
+                        {{ form.expiry_date(class="form-input error") }}
+                        <ul class="errors">
+                        {% for error in form.expiry_date.errors %}<li>{{ error }}</li>{% endfor %}
+                        </ul>
+                    {% else %}
+                        {{ form.expiry_date(class="form-input") }}
+                    {% endif %}
+                </div>
+
+                <div class="form-actions">
+                    {{ form.submit(class="btn btn-primary btn-block") }}
+                </div>
+            </form>
+        </div>
+
+        <div class="qr-card">
+            <div class="qr-preview">
+                <div id="qr-reader" style="width:100%;"></div>
+                <div id="qr-reader-results" class="qr-grid" aria-live="polite"></div>
+            </div>
+            <h2>Barcode scanner</h2>
+            <p>Scan de barcode van het product. Als de barcode bekend is in Odoo vullen we de productnaam automatisch in en registreren we het product zodra alle velden compleet zijn.</p>
+            <button type="button" class="btn btn-secondary btn-block" id="toggle-scan-button">Start scanner</button>
+            <button type="button" class="btn btn-secondary btn-block" id="dummy-scan-button" style="display:none;margin-top:8px;">Gebruik dummy code</button>
+            <p class="qr-hint">Na een scan kun je het product direct laten registreren.</p>
+        </div>
+    </div>
+</div>
+
+<!-- html5-qrcode CDN (with local fallback) -->
+<script src="https://unpkg.com/html5-qrcode@2.3.8/minified/html5-qrcode.min.js"></script>
+    <!-- jsQR for canvas-based decoding fallback (works in browsers without BarcodeDetector) -->
+    <script src="https://unpkg.com/jsqr/dist/jsQR.js"></script>
+<!-- Quagga for 1D barcode scanning fallback -->
+<script src="https://unpkg.com/quagga@0.12.1/dist/quagga.min.js"></script>
+<!-- ZXing (multi-format) for robust live decoding of 1D/2D codes -->
+<script src="https://unpkg.com/@zxing/library@0.18.6/umd/index.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('product-register-form');
+        const toggleButton = document.getElementById('toggle-scan-button');
+        const resultsEl = document.getElementById('qr-reader-results');
+        const readerEl = document.getElementById('qr-reader');
+        const dummyScanBtn = document.getElementById('dummy-scan-button');
+        let scanning = false;
+        let activeStream = null;
+        let activeReader = null;
+        let quaggaHandlerRegistered = false;
+        let barcodeLookupTimer = null;
+        let suppressNextProductCodeLookup = false;
+        const supportedBarcodeFormats = ['code_128'];
+
+        function getField(name) {
+            if (!form) {
+                return document.querySelector('[name="' + name + '"]');
+            }
+            return form.querySelector('[name="' + name + '"]') || document.querySelector('[name="' + name + '"]');
+        }
+
+        function getValue(name) {
+            const field = getField(name);
+            return field ? (field.value || '').trim() : '';
+        }
+
+        function setValue(name, value) {
+            const field = getField(name);
+            if (!field) {
+                return false;
+            }
+            field.value = value;
+            field.dispatchEvent(new Event('input', { bubbles: true }));
+            field.dispatchEvent(new Event('change', { bubbles: true }));
+            return true;
+        }
+
+        function showResult(message) {
+            if (resultsEl) {
+                resultsEl.textContent = message;
+            }
+        }
+
+        function scheduleBarcodeLookup() {
+            const barcode = getValue('product_code');
+            if (!barcode || barcode.length < 6) {
+                return;
+            }
+
+            if (barcodeLookupTimer) {
+                clearTimeout(barcodeLookupTimer);
+            }
+
+            barcodeLookupTimer = window.setTimeout(function() {
+                barcodeLookupTimer = null;
+                lookupBarcode(barcode);
+            }, 250);
+        }
+
+        function resetScannerView() {
+            if (readerEl) {
+                readerEl.innerHTML = '';
+            }
+        }
+
+        function stopActiveStream() {
+            if (activeStream) {
+                activeStream.getTracks().forEach(track => track.stop());
+                activeStream = null;
+            }
+        }
+
+        function stopScanner() {
+            scanning = false;
+            if (activeReader && activeReader.reset) {
+                try {
+                    activeReader.reset();
+                } catch (error) {
+                    console.debug('Barcode reader reset failed', error);
+                }
+                activeReader = null;
+            }
+            if (window.Quagga && typeof Quagga.stop === 'function') {
+                try {
+                    Quagga.stop();
+                } catch (error) {
+                    console.debug('Quagga stop failed', error);
+                }
+            }
+            stopActiveStream();
+            if (toggleButton) {
+                toggleButton.textContent = 'Start scanner';
+            }
+            resetScannerView();
+        }
+
+        async function lookupBarcode(barcode) {
+            try {
+                const response = await fetch('{{ url_for("main.lookup_product_by_barcode") }}?barcode=' + encodeURIComponent(barcode), {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                });
+                const data = await response.json();
+
+                const resolvedName = (data && (data.name || data.suggested_name)) ? (data.name || data.suggested_name) : '';
+
+                if (resolvedName) {
+                    setValue('name', resolvedName);
+                    if (data && data.source === 'odoo') {
+                        showResult('Barcode gevonden in Odoo: ' + resolvedName);
+                    } else if (data && data.source === 'local') {
+                        showResult('Barcode gevonden in je eigen registraties: ' + resolvedName);
+                    } else {
+                        showResult('Geen Odoo-match, voorstelnaam ingevuld: ' + resolvedName);
+                    }
+                } else {
+                    showResult('Barcode gescand: ' + barcode + '. Er is geen productnaam gevonden.');
+                }
+            } catch (error) {
+                console.warn('Barcode lookup failed', error);
+                setValue('name', 'Product ' + barcode);
+                showResult('Barcode gescand: ' + barcode + '. Fallbacknaam ingevuld.');
+            }
+        }
+
+        function handleScanResult(code, sourceLabel) {
+            const barcode = (code || '').trim();
+            if (!barcode) {
+                return;
+            }
+
+            stopScanner();
+            suppressNextProductCodeLookup = true;
+            setValue('product_code', barcode);
+            showResult('Gescand (' + sourceLabel + '): ' + barcode);
+            lookupBarcode(barcode);
+        }
+
+        async function startBarcodeDetector() {
+            if (!('BarcodeDetector' in window) || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                return false;
+            }
+
+            const detector = new BarcodeDetector({ formats: supportedBarcodeFormats });
+            const video = document.createElement('video');
+            video.setAttribute('playsinline', 'true');
+            video.autoplay = true;
+            video.muted = true;
+            video.style.width = '100%';
+
+            if (readerEl) {
+                readerEl.innerHTML = '';
+                readerEl.appendChild(video);
+            }
+
+            activeStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: 'environment' } } });
+            video.srcObject = activeStream;
+            await video.play();
+
+            scanning = true;
+            if (toggleButton) {
+                toggleButton.textContent = 'Stop scanner';
+            }
+            showResult('Camera gestart. Richt op een barcode.');
+
+            const scanFrame = async function() {
+                if (!scanning) {
+                    return;
+                }
+
+                try {
+                    const detections = await detector.detect(video);
+                    if (detections && detections.length) {
+                        const detection = detections[0];
+                        const value = detection.rawValue || detection.raw_data || '';
+                        if (value) {
+                            handleScanResult(value, detection.format || 'BarcodeDetector');
+                            return;
+                        }
+                    }
+                } catch (error) {
+                    console.debug('BarcodeDetector detect error', error);
+                }
+
+                requestAnimationFrame(scanFrame);
+            };
+
+            requestAnimationFrame(scanFrame);
+            return true;
+        }
+
+        async function startZXingScanner() {
+            const ReaderClass = window.ZXing && window.ZXing.BrowserMultiFormatReader;
+            if (!ReaderClass || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                return false;
+            }
+
+            const videoId = 'qr-video';
+            const video = document.createElement('video');
+            video.id = videoId;
+            video.style.width = '100%';
+            video.setAttribute('playsinline', 'true');
+            video.autoplay = true;
+            video.muted = true;
+
+            if (readerEl) {
+                readerEl.innerHTML = '';
+                readerEl.appendChild(video);
+            }
+
+            activeReader = new ReaderClass();
+            scanning = true;
+            if (toggleButton) {
+                toggleButton.textContent = 'Stop scanner';
+            }
+            showResult('ZXing scanner gestart. Richt op de barcode.');
+
+            try {
+                activeReader.decodeFromVideoDevice(null, videoId, function(result, error) {
+                    if (result && result.text) {
+                        handleScanResult(result.text, 'ZXing');
+                    }
+                    if (error) {
+                        console.debug('ZXing scan error', error);
+                    }
+                }).catch(function(error) {
+                    console.warn('ZXing scanner failed', error);
+                    scanning = false;
+                    activeReader = null;
+                    resetScannerView();
+                });
+                return true;
+            } catch (error) {
+                console.warn('ZXing scanner failed', error);
+                scanning = false;
+                activeReader = null;
+                resetScannerView();
+                return false;
+            }
+        }
+
+        async function startQuaggaScanner() {
+            if (!window.Quagga || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                return false;
+            }
+
+            if (!readerEl) {
+                return false;
+            }
+
+            readerEl.innerHTML = '';
+            const videoHost = document.createElement('div');
+            videoHost.id = 'quagga-reader';
+            videoHost.style.width = '100%';
+            readerEl.appendChild(videoHost);
+
+            return new Promise(function(resolve) {
+                Quagga.init({
+                    inputStream: {
+                        type: 'LiveStream',
+                        target: videoHost,
+                        constraints: {
+                            facingMode: 'environment'
+                        }
+                    },
+                    decoder: {
+                        readers: [
+                            'code_128_reader'
+                        ]
+                    },
+                    locate: true
+                }, function(error) {
+                    if (error) {
+                        console.warn('Quagga init failed', error);
+                        resolve(false);
+                        return;
+                    }
+
+                    Quagga.start();
+                    scanning = true;
+                    if (toggleButton) {
+                        toggleButton.textContent = 'Stop scanner';
+                    }
+                    showResult('Quagga scanner gestart. Richt op een barcode.');
+                    if (!quaggaHandlerRegistered) {
+                        Quagga.onDetected(function(result) {
+                            if (result && result.codeResult && result.codeResult.code) {
+                                handleScanResult(result.codeResult.code, 'Quagga');
+                            }
+                        });
+                        quaggaHandlerRegistered = true;
+                    }
+                    resolve(true);
+                });
+            });
+        }
+
+        async function startScanner() {
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                showResult('Geen camera-API beschikbaar in deze browser.');
+                return;
+            }
+
+            stopScanner();
+
+            if (await startBarcodeDetector()) {
+                return;
+            }
+
+            if (await startZXingScanner()) {
+                return;
+            }
+
+            if (await startQuaggaScanner()) {
+                return;
+            }
+
+            showResult('Geen ondersteunde barcode-scanner beschikbaar op dit apparaat.');
+            if (dummyScanBtn) {
+                dummyScanBtn.style.display = 'block';
+            }
+        }
+
+        if (!toggleButton) {
+            console.error('toggle-scan-button not found');
+            return;
+        }
+
+        toggleButton.addEventListener('click', function() {
+            if (scanning) {
+                stopScanner();
+            } else {
+                startScanner();
+            }
+        });
+
+        [getField('product_code'), getField('name'), getField('expiry_date')].forEach(function(field) {
+            if (field) {
+                field.addEventListener('input', function() {
+                    if (field === getField('product_code') || field === getField('name')) {
+                        showResult('Velden ingevuld. Klik op Product registreren om op te slaan.');
+                    }
+
+                    if (field === getField('product_code')) {
+                        if (suppressNextProductCodeLookup) {
+                            suppressNextProductCodeLookup = false;
+                            return;
+                        }
+
+                        scheduleBarcodeLookup();
+                    }
+                });
+
+                if (field === getField('product_code')) {
+                    field.addEventListener('keydown', function(event) {
+                        if (event.key === 'Enter') {
+                            event.preventDefault();
+                            if (barcodeLookupTimer) {
+                                clearTimeout(barcodeLookupTimer);
+                                barcodeLookupTimer = null;
+                            }
+                            lookupBarcode(getValue('product_code'));
+                        }
+                    });
+                }
+            }
+        });
+
+        if (dummyScanBtn) {
+            dummyScanBtn.addEventListener('click', function() {
+                const dummyCode = 'BAR-' + new Date().getFullYear() + '-' + String(Math.floor(Math.random() * 9000) + 1000);
+                setValue('product_code', dummyCode);
+                showResult('Dummy barcode ingevuld: ' + dummyCode);
+            });
+        }
+    });
+</script>
+{% endblock %}

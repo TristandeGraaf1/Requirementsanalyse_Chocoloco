@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="nl" data-theme="{{ current_user.theme if current_user.is_authenticated else 'light' }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Chocoloco{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    {% if current_user.is_authenticated %}
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('main.dashboard') }}" class="nav-brand">🍫 {{ _('Chocoloco') }}</a>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <a href="{{ url_for('main.dashboard') }}" class="nav-link">{{ _('Dashboard') }}</a>
+                <a href="{{ url_for('main.product_hub') }}" class="nav-link">{{ _('Producten') }}</a>
+                <a href="{{ url_for('main.shop') }}" class="nav-link">{{ _('Shop') }}</a>
+                <a href="{{ url_for('main.discover') }}" class="nav-link">{{ _('Ontdekken') }}</a>
+                <div class="nav-notification-wrapper" id="nav-notification-wrapper">
+                        <button type="button" class="nav-notification-toggle" id="nav-notification-toggle" aria-haspopup="true" aria-expanded="false" title="Melding">
+                        <span class="nav-notification-icon">🔔</span>
+                        {% if nav_unread_count > 0 %}
+                        <span class="nav-notification-badge">{{ nav_unread_count }}</span>
+                        {% endif %}
+                    </button>
+                    <div class="nav-notification-panel" id="nav-notification-panel" hidden>
+                        <p class="nav-notification-title">{{ _('Meldingen') }}</p>
+                        <div class="nav-notification-content" id="nav-notification-content">
+                        {% if nav_notifications %}
+                        <div class="nav-notification-list" id="nav-notification-list">
+                            {% for notification in nav_notifications %}
+                                {% if notification.kind == 'expiry' %}
+                                <div class="nav-notification-item {% if notification.is_read %}is-read{% else %}is-unread{% endif %}" data-product-id="{{ notification.product_id }}">
+                                    <div class="nav-notification-item-header">
+                                        <p class="nav-notification-message">{{ notification.name }}</p>
+                                        <span class="nav-notification-item-state {% if notification.is_read %}is-read{% else %}is-unread{% endif %}">
+                                            {% if notification.is_read %}Gelezen{% else %}Nieuw{% endif %}
+                                        </span>
+                                    </div>
+                                    <p class="nav-notification-item-meta">Vervalt over {{ notification.days }} dag{{ 'en' if notification.days != 1 else '' }}</p>
+                                    <div class="nav-notification-actions">
+                                        {% if not notification.is_read %}
+                                        <button type="button" class="nav-notification-mark-read" data-read-url="{{ url_for('main.mark_expiry_warning_read', product_id=notification.product_id) }}">Markeer als gelezen</button>
+                                        {% endif %}
+                                        <button type="button" class="nav-notification-dismiss" data-dismiss-url="{{ url_for('main.dismiss_expiry_warning', product_id=notification.product_id) }}">Verwijder melding</button>
+                                    </div>
+                                </div>
+                                {% elif notification.kind == 'forum' %}
+                                <div class="nav-notification-item {% if notification.is_read %}is-read{% else %}is-unread{% endif %}" data-notification-id="{{ notification.notification_id }}">
+                                    <div class="nav-notification-item-header">
+                                        <p class="nav-notification-message">Nieuw antwoord in: {{ notification.topic_title }}</p>
+                                        <span class="nav-notification-item-state {% if notification.is_read %}is-read{% else %}is-unread{% endif %}">
+                                            {% if notification.is_read %}Gelezen{% else %}Nieuw{% endif %}
+                                        </span>
+                                    </div>
+                                    <p class="nav-notification-item-meta">{{ notification.text }}</p>
+                                    <div class="nav-notification-actions">
+                                        {% if not notification.is_read %}
+                                        <button type="button" class="nav-notification-mark-read" data-read-url="{{ url_for('main.mark_forum_notification_read', notification_id=notification.notification_id) }}">Markeer als gelezen</button>
+                                        {% endif %}
+                                        <button type="button" class="nav-notification-dismiss" data-dismiss-url="{{ url_for('main.dismiss_forum_notification', notification_id=notification.notification_id) }}">Verwijder melding</button>
+                                        <a href="{{ url_for('main.community_topic', topic_id=notification.topic_id) }}" class="nav-notification-link">Bekijk onderwerp</a>
+                                    </div>
+                                </div>
+                                {% elif notification.kind == 'complaint_status' %}
+                                <div class="nav-notification-item {% if notification.is_read %}is-read{% else %}is-unread{% endif %}" data-notification-id="{{ notification.notification_id }}">
+                                    <div class="nav-notification-item-header">
+                                        <p class="nav-notification-message">Klachtstatus bijgewerkt</p>
+                                        <span class="nav-notification-item-state {% if notification.is_read %}is-read{% else %}is-unread{% endif %}">
+                                            {% if notification.is_read %}Gelezen{% else %}Nieuw{% endif %}
+                                        </span>
+                                    </div>
+                                    <p class="nav-notification-item-meta">Ticket {{ notification.ticket_name }}: {{ notification.old_status or 'onbekend' }} → {{ notification.new_status }}</p>
+                                    <div class="nav-notification-actions">
+                                        {% if not notification.is_read %}
+                                        <button type="button" class="nav-notification-mark-read" data-read-url="{{ url_for('main.mark_complaint_status_notification_read', notification_id=notification.notification_id) }}">Markeer als gelezen</button>
+                                        {% endif %}
+                                        <button type="button" class="nav-notification-dismiss" data-dismiss-url="{{ url_for('main.dismiss_complaint_status_notification', notification_id=notification.notification_id) }}">Verwijder melding</button>
+                                        <a href="{{ url_for('main.complaint_status') }}" class="nav-notification-link">Bekijk status</a>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <a href="{{ url_for('main.community') }}" class="nav-notification-link">Bekijk community</a>
+                        {% else %}
+                        <div class="nav-notification-empty" id="nav-notification-empty">
+                            <div class="nav-notification-empty-icon">🔔</div>
+                            <p class="nav-notification-message">Je hebt nu geen meldingen.</p>
+                            <p class="nav-notification-item-meta">Als iemand reageert op een geabonneerd topic of een product bijna verloopt, verschijnt het hier.</p>
+                            <div class="nav-notification-actions">
+                                <a href="{{ url_for('main.community') }}" class="nav-notification-link">Bekijk community</a>
+                                <a href="{{ url_for('main.all_products') }}" class="nav-notification-link">Bekijk producten</a>
+                            </div>
+                        </div>
+                        {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <a href="{{ url_for('main.settings') }}" class="nav-link settings-btn" title="Instellingen">⚙️</a>
+                <a href="{{ url_for('auth.logout') }}" class="nav-link">Uitloggen</a>
+            </div>
+        </div>
+    </nav>
+    {% endif %}
+
+    <main class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <script>
+        // Hamburger menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+
+        if (hamburger && navMenu) {
+            hamburger.addEventListener('click', function(e) {
+                e.stopPropagation();
+                hamburger.classList.toggle('active');
+                navMenu.classList.toggle('mobile-active');
+            });
+
+            // Close menu when clicking on a link
+            navMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', function() {
+                    hamburger.classList.remove('active');
+                    navMenu.classList.remove('mobile-active');
+                });
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+                    hamburger.classList.remove('active');
+                    navMenu.classList.remove('mobile-active');
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const notificationToggle = document.getElementById('nav-notification-toggle');
+            const notificationPanel = document.getElementById('nav-notification-panel');
+
+            if (notificationToggle && notificationPanel) {
+                const closeNotificationPanel = function() {
+                    notificationPanel.hidden = true;
+                    notificationToggle.setAttribute('aria-expanded', 'false');
+                };
+
+                const updateBadge = function(unreadCount) {
+                    const badge = notificationToggle.querySelector('.nav-notification-badge');
+                    if (unreadCount > 0) {
+                        if (badge) {
+                            badge.textContent = unreadCount;
+                        } else {
+                            const newBadge = document.createElement('span');
+                            newBadge.className = 'nav-notification-badge';
+                            newBadge.textContent = unreadCount;
+                            notificationToggle.appendChild(newBadge);
+                        }
+                    } else if (badge) {
+                        badge.remove();
+                    }
+                };
+
+                notificationToggle.addEventListener('click', function(event) {
+                    event.stopPropagation();
+                    const isHidden = notificationPanel.hidden;
+                    notificationPanel.hidden = !isHidden;
+                    notificationToggle.setAttribute('aria-expanded', String(isHidden));
+                });
+
+                notificationPanel.addEventListener('click', function(event) {
+                    const readButton = event.target.closest('.nav-notification-mark-read');
+                    const dismissButton = event.target.closest('.nav-notification-dismiss');
+
+                    if (!readButton && !dismissButton) {
+                        event.stopPropagation();
+                        return;
+                    }
+
+                    event.stopPropagation();
+                    const actionButton = readButton || dismissButton;
+                    const actionUrl = actionButton.dataset.readUrl || actionButton.dataset.dismissUrl;
+                    const item = actionButton.closest('.nav-notification-item');
+
+                    fetch(actionUrl, {
+                        method: 'POST',
+                        credentials: 'same-origin',
+                        headers: {'Content-Type': 'application/json'}
+                    }).then(function(response) {
+                        if (!response.ok) {
+                            return;
+                        }
+
+                        response.json().then(function(data) {
+                            updateBadge(data.unread_count || 0);
+
+                            if (readButton && item) {
+                                const state = item.querySelector('.nav-notification-item-state');
+                                if (state) {
+                                    state.textContent = 'Gelezen';
+                                    state.classList.remove('is-unread');
+                                    state.classList.add('is-read');
+                                }
+
+                                item.classList.remove('is-unread');
+                                item.classList.add('is-read');
+
+                                readButton.remove();
+                            }
+
+                            if (dismissButton && item) {
+                                item.remove();
+
+                                const list = notificationPanel.querySelector('#nav-notification-list');
+                                if (list && !list.children.length) {
+                                    const emptyState = document.createElement('p');
+                                    emptyState.className = 'nav-notification-message';
+                                    emptyState.textContent = 'Geen actieve meldingen.';
+                                    list.replaceWith(emptyState);
+                                }
+                            }
+                        });
+                    });
+                });
+
+                document.addEventListener('click', closeNotificationPanel);
+                document.addEventListener('keydown', function(event) {
+                    if (event.key === 'Escape') {
+                        closeNotificationPanel();
+                    }
+                });
+
+                // Poll server for new notifications periodically
+                const pollNotifications = function() {
+                    fetch('{{ url_for("main.notifications_poll") }}', { credentials: 'same-origin' })
+                        .then(function(res){ if(!res.ok) throw new Error('Network'); return res.json(); })
+                        .then(function(data){
+                            updateBadge(data.unread_count || 0);
+
+                            const content = notificationPanel.querySelector('#nav-notification-content');
+                            let list = notificationPanel.querySelector('#nav-notification-list');
+                            if(!content) return;
+
+                            if(!data.notifications || !data.notifications.length) {
+                                content.innerHTML = '<div class="nav-notification-empty" id="nav-notification-empty"><div class="nav-notification-empty-icon">🔔</div><p class="nav-notification-message">Je hebt nu geen meldingen.</p><p class="nav-notification-item-meta">Als iemand reageert op een geabonneerd topic of een product bijna verloopt, verschijnt het hier.</p><div class="nav-notification-actions"><a href="{{ url_for('main.community') }}" class="nav-notification-link">Bekijk community</a><a href="{{ url_for('main.all_products') }}" class="nav-notification-link">Bekijk producten</a></div></div>';
+                                return;
+                            }
+
+                            if (!list) {
+                                content.innerHTML = '<div class="nav-notification-list" id="nav-notification-list"></div><a href="{{ url_for('main.community') }}" class="nav-notification-link">Bekijk community</a>';
+                                list = notificationPanel.querySelector('#nav-notification-list');
+                            }
+
+                            list.innerHTML = '';
+                            data.notifications.forEach(function(n){
+                                let item = document.createElement('div');
+                                item.className = 'nav-notification-item ' + (n.is_read ? 'is-read' : 'is-unread');
+
+                                if(n.kind === 'expiry'){
+                                    item.dataset.productId = n.product_id;
+                                    item.innerHTML = `<div class="nav-notification-item-header"><p class="nav-notification-message">${n.name}</p><span class="nav-notification-item-state ${n.is_read? 'is-read':'is-unread'}">${n.is_read? 'Gelezen':'Nieuw'}</span></div><p class="nav-notification-item-meta">Vervalt over ${n.days} dag${n.days != 1 ? 'en' : ''}</p><div class="nav-notification-actions">${n.is_read? '': '<button type="button" class="nav-notification-mark-read" data-read-url="'+ ('{{ url_for("main.mark_expiry_warning_read", product_id=0) }}').replace('/0','/'+n.product_id)+'">Markeer als gelezen</button>'}<button type="button" class="nav-notification-dismiss" data-dismiss-url="${ ('{{ url_for("main.dismiss_expiry_warning", product_id=0) }}').replace('/0','/'+n.product_id) }">Verwijder melding</button></div>`;
+                                } else if(n.kind === 'forum'){
+                                    item.dataset.notificationId = n.notification_id;
+                                    item.innerHTML = `<div class="nav-notification-item-header"><p class="nav-notification-message">Nieuw antwoord in: ${n.topic_title}</p><span class="nav-notification-item-state ${n.is_read? 'is-read':'is-unread'}">${n.is_read? 'Gelezen':'Nieuw'}</span></div><p class="nav-notification-item-meta">${n.text}</p><div class="nav-notification-actions">${n.is_read? '': '<button type="button" class="nav-notification-mark-read" data-read-url="'+ ('{{ url_for("main.mark_forum_notification_read", notification_id=0) }}').replace('/0','/'+n.notification_id)+'">Markeer als gelezen</button>'}<button type="button" class="nav-notification-dismiss" data-dismiss-url="${ ('{{ url_for("main.dismiss_forum_notification", notification_id=0) }}').replace('/0','/'+n.notification_id) }">Verwijder melding</button><a href="${ ('{{ url_for("main.community_topic", topic_id=0) }}').replace('/0','/'+n.topic_id) }" class="nav-notification-link">Bekijk onderwerp</a></div>`;
+                                } else if(n.kind === 'complaint_status'){
+                                    item.dataset.notificationId = n.notification_id;
+                                    item.innerHTML = `<div class="nav-notification-item-header"><p class="nav-notification-message">Klachtstatus bijgewerkt</p><span class="nav-notification-item-state ${n.is_read? 'is-read':'is-unread'}">${n.is_read? 'Gelezen':'Nieuw'}</span></div><p class="nav-notification-item-meta">Ticket ${n.ticket_name}: ${n.old_status || 'onbekend'} → ${n.new_status}</p><div class="nav-notification-actions">${n.is_read? '': '<button type="button" class="nav-notification-mark-read" data-read-url="'+ ('{{ url_for("main.mark_complaint_status_notification_read", notification_id=0) }}').replace('/0','/'+n.notification_id)+'">Markeer als gelezen</button>'}<button type="button" class="nav-notification-dismiss" data-dismiss-url="${ ('{{ url_for("main.dismiss_complaint_status_notification", notification_id=0) }}').replace('/0','/'+n.notification_id) }">Verwijder melding</button><a href="{{ url_for('main.complaint_status') }}" class="nav-notification-link">Bekijk status</a></div>`;
+                                }
+
+                                list.appendChild(item);
+                            });
+                        }).catch(function(err){
+                            console.error('poll error', err);
+                        });
+                };
+
+                pollNotifications();
+                setInterval(pollNotifications, 15000);
+            }
+        });
+    </script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

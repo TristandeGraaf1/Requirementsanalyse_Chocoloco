@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}{{ article.title or article.name or 'Nieuws' }} - Chocoloco{% endblock %}
+
+{% block content %}
+<article class="article-container">
+    <header class="article-hero">
+        <div class="article-hero-inner container">
+            <h1 class="article-title">{{ article.title or article.name or 'Nieuws' }}</h1>
+            <div class="article-meta">{{ article.website_published_date or article.create_date or '' }}</div>
+        </div>
+    </header>
+
+    <div class="container article-content-wrapper">
+        <div class="article-content">
+            {% if article.content %}
+                {{ article.content|safe }}
+            {% elif article.body %}
+                {{ article.body|safe }}
+            {% elif article.description %}
+                <p>{{ article.description }}</p>
+            {% else %}
+                <p>Geen inhoud beschikbaar.</p>
+            {% endif %}
+        </div>
+
+        <footer class="article-footer">
+            <a class="btn btn-secondary" href="{{ url_for('main.news_list') }}">← Terug naar nieuws</a>
+        </footer>
+    </div>
+</article>
+{% endblock %}
