@@ -172,6 +172,8 @@ Er is een duidelijk verschil tussen de huidige en gewenste situatie. Op dit mome
 ## 4.	Productvisie (Met de product vision board template)
 
 **Product Vision Chocoloco**
+
+
 Chocoloco wil klanten een gepersonaliseerde en duurzame chocoladebeleving bieden via een mobiele applicatie. De app ondersteunt consumenten en zakelijke klanten met productinformatie, persoonlijke aanbiedingen, klantenservice en eenvoudige bestelprocessen. Door gebruik te maken van personalisatie, chatbotfunctionaliteiten en klantdata wil Chocoloco de klanttevredenheid verhogen, klantloyaliteit versterken en tegelijkertijd bedrijfsprocessen efficiënter maken.
 
 
