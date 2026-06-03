@@ -177,7 +177,7 @@ Chocoloco wil klanten een gepersonaliseerde en duurzame chocoladebeleving bieden
 
 **Vision board**
 
-![Login](Visionboard.png)
+![Login](Visionboard1.png)
 
 
 ## 5. User stories (inclusief acceptatiecriteria en inschatting)
