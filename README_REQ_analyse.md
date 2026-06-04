@@ -190,143 +190,163 @@ Chocoloco wil klanten een gepersonaliseerde en duurzame chocoladebeleving bieden
 
 **1. Product registreren**
 
-Als klant wil ik een chocoladeproduct kunnen scannen met een QR-code, zodat ik productinformatie kan bekijken.  
+1. Product registreren
+
+Als klant wil ik een chocoladeproduct kunnen scannen met een QR-code, zodat ik productinformatie kan bekijken.
 
 Acceptatiecriteria:
-- QR-code kan gescand worden via camera  
-- Product word dan toegevoegd in het dashboard  
-- Product info word gegeven.  
+- Gebruiker kan een QR-code scannen via de camera in de app
+- Na succesvolle scan wordt het product toegevoegd aan het persoonlijke dashboard
+- De app toont productinformatie zoals naam, herkomst en houdbaarheidsdatum
+Inschatting: M
 
-Inschatting: M  
+
 
 
 **2. Dashboard bekijken**
 
-Als klant wil ik een overzicht zien van mijn geregistreerde producten zodat ik inzicht heb in mijn aankopen.  
+Als klant wil ik een overzicht zien van mijn geregistreerde producten, zodat ik inzicht heb in mijn aankopen.
 
 Acceptatiecriteria:
-- Producten worden weergegeven  
-- Product details aanklikbaar  
+- Dashboard toont alle geregistreerde producten
+- Gebruiker kan op een product klikken om details te bekijken
+- Productoverzicht wordt automatisch bijgewerkt na registratie
+Inschatting: M
 
-Inschatting: M  
+
 
 
 **3. AI-Chatbot**
 
-Als klant wil ik de AI chatbot gebruiken om vragen te stellen, zodat mijn vragen snel beantwoord kunnen worden.  
+Als klant wil ik de AI-chatbot gebruiken om vragen te stellen, zodat ik snel antwoord krijg.
 
 Acceptatiecriteria:
-- Doorverwijzing naar medewerker mogelijk  
-- Snelle reactie vereist  
-- Geen nutteloze antwoorden  
+- Gebruiker kan vragen invoeren via een chatvenster
+- De chatbot geeft binnen enkele seconden een reactie
+- Indien geen passend antwoord beschikbaar is, kan worden doorgeschakeld naar een medewerker
 
-Inschatting: L  
+Inschatting: L
+
 
 
 **4. Klachten**
 
-Als klant wil een klacht kunnen indienen, zodat mijn probleem wordt opgelost.  
+Als klant wil ik een klacht kunnen indienen, zodat mijn probleem kan worden opgelost.
 
 Acceptatiecriteria:
-- Klantformulier beschikbaar  
-- Foto upload mogelijk  
-- Status van de klacht is zichtbaar  
+- Gebruiker kan een klachtenformulier invullen
+- Gebruiker kan een foto toevoegen
+- Na verzending ontvangt gebruiker een bevestiging
+- Ingediende klachten zijn zichtbaar in het account
+
+Inschatting: M
+ 
 
 
 **5. Product bestellen**
 
-Als klant wil ik chocoladeproducten kunnen bestellen via de app, zodat ik eenvoudig nieuwe producten kan kopen.  
+Als klant wil ik chocoladeproducten kunnen bestellen via de app, zodat ik eenvoudig producten kan kopen.
 
 Acceptatiecriteria:
-- Producten zijn zichtbaar  
-- Bestelknop werkt  
-- Koppeling met ERP werkt correct  
+- Producten zijn zichtbaar in een productoverzicht
+- Gebruiker kan producten toevoegen aan een bestelling
+- Bestellingen worden correct verwerkt via het ERP-systeem
+- Gebruiker ontvangt een bestelbevestiging
 
-Inschatting: L  
+Inschatting: L
+
 
 
 **6. Aanbevelingen**
 
-Als klant wil ik gepersonaliseerde aanbevelingen ontvangen zodat ik producten ontdek die bij mij passen.  
-
+Als klant wil ik gepersonaliseerde aanbevelingen ontvangen, zodat ik producten ontdek die bij mij passen.
 Acceptatiecriteria:
-- Aanbevelingen gebaseerd op eerdere aankopen  
-- Relevante producten worden getoond  
-- Updates bij nieuwe producten  
 
-Inschatting: L  
+- Aanbevelingen zijn gebaseerd op eerdere aankopen
+- Minimaal drie relevante producten worden weergegeven
+- Aanbevelingen worden automatisch bijgewerkt
+  
+Inschatting: L
+
 
 
 **7. Product notificaties**
 
-Als klant wil ik notificaties ontvangen wanneer een product bijna over datum is, zodat ik producten op tijd kan gebruiken.  
+Als klant wil ik notificaties ontvangen wanneer een product bijna over datum is, zodat ik producten op tijd kan gebruiken.
 
 Acceptatiecriteria:
-- De app stuurt automatisch een melding  
-- De melding toont productnaam en datum  
-- Gebruiker kan meldingen aan/uit zetten  
+- Gebruiker ontvangt automatisch een melding
+- Melding bevat productnaam en datum
+- Gebruiker kan meldingen aan- of uitzetten
+  
+Inschatting: M
 
-Inschatting: M  
 
 
 **8. Favoriete smaken**
 
-Als klant wil ik favoriete smaken kunnen opslaan, zodat ik sneller producten terug kan vinden.  
-
+Als klant wil ik favoriete smaken opslaan, zodat ik producten sneller terug kan vinden.
 Acceptatiecriteria:
-- Gebruiker kan producten als favoriet markeren  
-- Favorieten zijn zichtbaar in profiel  
-- Favorieten blijven opgeslagen na uitloggen  
 
-Inschatting: S  
+- Gebruiker kan producten als favoriet markeren
+- Favorieten zijn zichtbaar in het profiel
+- Favorieten blijven opgeslagen na opnieuw inloggen
+  
+Inschatting: S
+
 
 
 **9. Herinneringen**
 
-Als gebruiker wil ik herinneringen ontvangen voor workshops en events, zodat ik deze niet vergeet.  
-
+Als gebruiker wil ik herinneringen ontvangen voor workshops en evenementen, zodat ik deze niet vergeet.
 Acceptatiecriteria:
-- Gebruiker ontvangt een pushnotificatie  
-- Tijd en locatie worden weergegeven  
-- Herinneringen kunnen uitgezet worden  
 
-Inschatting: M  
+- Gebruiker ontvangt een pushnotificatie
+- Melding toont tijd en locatie
+- Gebruiker kan herinneringen uitschakelen
+  
+Inschatting: M
+
 
 
 **10. Volgen van klachten**
 
-Als klant wil ik de status van mijn klacht kunnen volgen, zodat ik weet wanneer deze wordt opgelost.  
+Als klant wil ik de status van mijn klacht kunnen volgen, zodat ik weet wanneer deze wordt opgelost.
 
 Acceptatiecriteria:
-- Gebruiker ziet huidige status  
-- Updates worden automatisch weergegeven  
-- Gebruiker ontvangt notificaties bij wijzigingen  
+- Gebruiker ziet actuele status
+- Status wordt automatisch bijgewerkt
+- Gebruiker ontvangt een melding bij statuswijziging
+  
+Inschatting: M
 
-Inschatting: L  
 
 
 **11. Donker en lichte modus**
 
-Als gebruiker wil ik kunnen kiezen tussen lichte en donkere modus, zodat de app prettig te gebruiken is.  
+Als gebruiker wil ik kunnen kiezen tussen lichte en donkere modus, zodat de app prettig te gebruiken is.
+
 
 Acceptatiecriteria:
-- Gebruiker kan thema aanpassen  
-- Instelling wordt opgeslagen  
-- Interface verandert direct  
+- Gebruiker kan een thema selecteren
+- De instelling wordt opgeslagen
+- De interface verandert direct
 
-Inschatting: S  
+Inschatting: S
+
 
 
 12. Recepten zoeken
 
-**Als gebruiker wil ik recepten kunnen zoeken op smaak of ingrediënt, zodat ik sneller passende recepten kan vinden.** 
+Als gebruiker wil ik recepten kunnen zoeken op smaak of ingrediënt, zodat ik sneller passende recepten kan vinden.
 
 Acceptatiecriteria:
-- Zoekfunctie werkt op naam en ingrediënt  
-- Resultaten worden direct weergegeven  
-- Gebruiker kan recepten openen  
+- Gebruiker kan zoeken op naam en ingrediënt
+- Resultaten worden binnen de app weergegeven
+- Gebruiker kan een recept openen en bekijken
+  
+Inschatting: M
 
-**Inschatting:** M
 
 
 
