@@ -336,7 +336,7 @@ Inschatting: S
 
 
 
-12. Recepten zoeken
+**12. Recepten zoeken**
 
 Als gebruiker wil ik recepten kunnen zoeken op smaak of ingrediënt, zodat ik sneller passende recepten kan vinden.
 
